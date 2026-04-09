@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile — Student Portal | Madrasa Dar-ul-Falah</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+<div class="db-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🎓</div><div class="logo-text"><h2>Dar-ul-Falah</h2><span>Student Portal</span></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">My Portal</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item active" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+      <a class="nav-item" href="courses.html"><span class="nav-icon">📚</span> My Courses</a>
+      <a class="nav-item" href="materials.html"><span class="nav-icon">📄</span> Study Materials</a>
+      <a class="nav-item" href="announcements.html"><span class="nav-icon">📢</span> Announcements</a>
+      <div class="nav-section-label">More</div>
+      <a class="nav-item" href="../index.html" target="_blank"><span class="nav-icon">🌐</span> Madrasa Website</a>
+      <a class="nav-item" href="../contact.html" target="_blank"><span class="nav-icon">✉️</span> Contact Us</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="s-avatar" id="sAvatar">🧑</div>
+        <div class="s-info"><span id="studentName">Student</span><small id="studentId">STU000</small></div>
+        <button class="btn-logout" onclick="logout()">🚪</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title">My Profile</div>
+      <div class="topbar-actions"><button class="topbar-btn">🔔</button><div class="topbar-avatar" id="topAvatar">🧑</div></div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <div><h1>My Profile</h1><div class="breadcrumb">Portal → <span>Profile</span></div></div>
+      </div>
+
+      <div class="grid-2">
+
+        <!-- Profile Card -->
+        <div>
+          <div class="profile-card" style="margin-bottom:20px;">
+            <div class="profile-banner"></div>
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar" id="profileAvatar">🧑</div>
+              <span class="badge badge-green">Active</span>
+            </div>
+            <div class="profile-info">
+              <h2 id="profileName">Student Name</h2>
+              <span class="role-tag">🎓 Student</span>
+              <div class="profile-meta">
+                <div class="profile-meta-item"><span class="meta-icon">🆔</span><span id="profileId">STU000</span></div>
+                <div class="profile-meta-item"><span class="meta-icon">📚</span><span id="profileCourse">—</span></div>
+                <div class="profile-meta-item"><span class="meta-icon">📧</span><span id="profileEmail">—</span></div>
+                <div class="profile-meta-item"><span class="meta-icon">📞</span><span id="profilePhone">—</span></div>
+                <div class="profile-meta-item"><span class="meta-icon">🕐</span><span id="profileSession">—</span></div>
+                <div class="profile-meta-item"><span class="meta-icon">📅</span><span id="profileJoining">—</span></div>
+                <div class="profile-meta-item"><span class="meta-icon">👨‍👩‍👧</span><span id="profileGuardian">—</span></div>
+                <div class="profile-meta-item"><span class="meta-icon">🏠</span><span id="profileAddress">—</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit form -->
+        <div>
+          <!-- Update Profile -->
+          <div class="db-card" style="margin-bottom:20px;">
+            <div class="db-card-header"><h2>✏️ Update Profile</h2></div>
+            <div class="db-card-body">
+              <div class="form-group">
+                <label>Full Name</label>
+                <input class="form-control" id="editName" placeholder="Full name">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" class="form-control" id="editEmail">
+                </div>
+                <div class="form-group">
+                  <label>Phone</label>
+                  <input class="form-control" id="editPhone">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Address</label>
+                <input class="form-control" id="editAddress">
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="saveProfile()">💾 Save Changes</button>
+            </div>
+          </div>
+
+          <!-- Change Password -->
+          <div class="db-card">
+            <div class="db-card-header"><h2>🔒 Change Password</h2></div>
+            <div class="db-card-body">
+              <div class="form-group">
+                <label>Current Password</label>
+                <input type="password" class="form-control" id="currentPw" placeholder="Enter current password">
+              </div>
+              <div class="form-group">
+                <label>New Password</label>
+                <input type="password" class="form-control" id="newPw" placeholder="At least 8 characters">
+              </div>
+              <div class="form-group">
+                <label>Confirm New Password</label>
+                <input type="password" class="form-control" id="confirmPw" placeholder="Re-enter new password">
+              </div>
+              <button class="btn btn-outline btn-sm" onclick="changePassword()">🔑 Update Password</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+  let user = MdfAuth.requireStudent();
+  document.getElementById('sAvatar').textContent   = user.avatar || '🧑';
+  document.getElementById('topAvatar').textContent = user.avatar || '🧑';
+  document.getElementById('studentName').textContent = user.name;
+  document.getElementById('studentId').textContent   = user.studentId || user.id;
+
+  function logout() { MdfAuth.logout(); window.location.href = 'login.html'; }
+
+  function populateProfile() {
+    document.getElementById('profileAvatar').textContent  = user.avatar || '🧑';
+    document.getElementById('profileName').textContent    = user.name;
+    document.getElementById('profileId').textContent      = user.studentId || user.id;
+    document.getElementById('profileCourse').textContent  = user.course;
+    document.getElementById('profileEmail').textContent   = user.email;
+    document.getElementById('profilePhone').textContent   = user.phone || 'N/A';
+    document.getElementById('profileSession').textContent = user.session + ' Session';
+    document.getElementById('profileJoining').textContent = 'Joined: ' + user.joining;
+    document.getElementById('profileGuardian').textContent= user.guardian || 'N/A';
+    document.getElementById('profileAddress').textContent = user.address || 'N/A';
+
+    // Fill form
+    document.getElementById('editName').value    = user.name;
+    document.getElementById('editEmail').value   = user.email;
+    document.getElementById('editPhone').value   = user.phone || '';
+    document.getElementById('editAddress').value = user.address || '';
+  }
+
+  function saveProfile() {
+    const name = document.getElementById('editName').value.trim();
+    if (!name) { showToast('Name is required.', 'error'); return; }
+    user.name    = name;
+    user.email   = document.getElementById('editEmail').value.trim();
+    user.phone   = document.getElementById('editPhone').value.trim();
+    user.address = document.getElementById('editAddress').value.trim();
+    // Update session
+    sessionStorage.setItem('mdf_user', JSON.stringify(user));
+    populateProfile();
+    showToast('Profile updated successfully!');
+  }
+
+  function changePassword() {
+    const curr    = document.getElementById('currentPw').value;
+    const newPw   = document.getElementById('newPw').value;
+    const confirm = document.getElementById('confirmPw').value;
+    if (curr !== user.password) { showToast('Current password is incorrect.', 'error'); return; }
+    if (newPw.length < 8)       { showToast('New password must be at least 8 characters.', 'error'); return; }
+    if (newPw !== confirm)      { showToast('Passwords do not match.', 'error'); return; }
+    user.password = newPw;
+    sessionStorage.setItem('mdf_user', JSON.stringify(user));
+    document.getElementById('currentPw').value = '';
+    document.getElementById('newPw').value     = '';
+    document.getElementById('confirmPw').value = '';
+    showToast('Password changed successfully! 🔑');
+  }
+
+  populateProfile();
+</script>
+</body>
+</html>

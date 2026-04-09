@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Login — Madrasa Dar-ul-Falah</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <style>
+    .eye-btn { background:none;border:none;cursor:pointer;color:var(--gray-400);font-size:16px;padding:0 4px;position:absolute;right:12px;top:50%;transform:translateY(-50%);transition:var(--transition); }
+    .eye-btn:hover { color: var(--primary); }
+    .pw-wrap { position:relative; }
+    .pw-wrap .form-control { padding-right: 38px; }
+    .error-msg { color:var(--red);font-size:12px;margin-top:4px;display:none; }
+    .error-msg.show { display:block; }
+  </style>
+</head>
+<body>
+<div class="login-page">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="logo-badge">🎓</div>
+      <h2>Student Portal</h2>
+      <p>Madrasa Dar-ul-Falah</p>
+    </div>
+
+    <div class="notice notice-green" style="margin-bottom:20px;">
+      <span class="notice-icon">📚</span>
+      <span>Access your courses, materials, and announcements</span>
+    </div>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label>Student ID or Email</label>
+        <input type="text" id="loginId" class="form-control" placeholder="STU001 or email@student.com" autocomplete="username">
+        <span class="error-msg" id="idError">Please enter your Student ID or email.</span>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="loginPw" class="form-control" placeholder="••••••••" autocomplete="current-password">
+          <button type="button" class="eye-btn" onclick="togglePw()">👁</button>
+        </div>
+        <span class="error-msg" id="pwError">Incorrect credentials. Please try again.</span>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--gray-600);cursor:pointer;">
+          <input type="checkbox" id="rememberMe"> Remember me
+        </label>
+        <a href="#" style="font-size:13px;color:var(--primary);">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;">
+        🎓 Access My Portal
+      </button>
+    </form>
+
+    <div class="demo-creds" style="margin-top:18px;">
+      <strong>Demo Student Accounts</strong><br>
+      ID: <strong>STU001</strong> · Pass: <strong>student123</strong> (Ahmad Farooq)<br>
+      ID: <strong>STU002</strong> · Pass: <strong>student456</strong> (Fatima Malik)
+    </div>
+
+    <p style="text-align:center;margin-top:20px;font-size:12px;color:var(--gray-400);">
+      Are you staff? <a href="../admin/login.html" style="color:var(--primary);">Admin Login →</a>
+    </p>
+    <p style="text-align:center;margin-top:8px;font-size:12px;">
+      <a href="../index.html" style="color:var(--gray-400);">← Back to Website</a>
+    </p>
+  </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+  (function() {
+    const u = MdfAuth.getUser();
+    if (u && u.role === 'student') window.location.href = 'dashboard.html';
+  })();
+
+  function togglePw() {
+    const f = document.getElementById('loginPw');
+    f.type = f.type === 'password' ? 'text' : 'password';
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const id = document.getElementById('loginId').value.trim();
+    const pw = document.getElementById('loginPw').value;
+
+    document.getElementById('idError').classList.remove('show');
+    document.getElementById('pwError').classList.remove('show');
+
+    if (!id) { document.getElementById('idError').classList.add('show'); return; }
+
+    const user = MdfAuth.login(id, pw);
+    if (!user || user.role !== 'student') {
+      document.getElementById('pwError').textContent = 'Invalid Student ID, email, or password.';
+      document.getElementById('pwError').classList.add('show');
+    } else {
+      showToast('Welcome back, ' + user.name + '! 🎓', 'success');
+      setTimeout(() => window.location.href = 'dashboard.html', 800);
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcements — Student Portal | Madrasa Dar-ul-Falah</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <style>
+    .ann-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.6rem;
+    }
+    .cat-filter {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+    .cat-btn {
+      padding: .38rem .9rem;
+      border-radius: 20px;
+      border: 2px solid var(--border);
+      background: transparent;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+    .cat-btn:hover, .cat-btn.active { color: #fff; }
+    .cat-btn[data-cat="all"]          { --cc: #1a6b3c; }
+    .cat-btn[data-cat="Admission"]    { --cc: #2563eb; }
+    .cat-btn[data-cat="Academic"]     { --cc: #7c3aed; }
+    .cat-btn[data-cat="Holiday"]      { --cc: #d97706; }
+    .cat-btn[data-cat="Event"]        { --cc: #dc2626; }
+    .cat-btn:hover, .cat-btn.active {
+      background: var(--cc, var(--primary));
+      border-color: var(--cc, var(--primary));
+    }
+
+    .ann-list { display: flex; flex-direction: column; gap: 1rem; }
+
+    .ann-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0;
+      overflow: hidden;
+      transition: box-shadow .25s, transform .25s;
+      display: flex;
+    }
+    .ann-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,.1);
+    }
+    .ann-accent {
+      width: 5px;
+      flex-shrink: 0;
+      border-radius: 14px 0 0 14px;
+    }
+    .ann-body { flex: 1; padding: 1.2rem 1.4rem; display: flex; flex-direction: column; gap: .5rem; }
+    .ann-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .ann-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .ann-badges { display: flex; gap: .5rem; align-items: center; flex-shrink: 0; }
+    .ann-cat {
+      display: inline-flex;
+      align-items: center;
+      gap: .25rem;
+      padding: .22rem .65rem;
+      border-radius: 20px;
+      font-size: .75rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .ann-new {
+      background: #dc2626;
+      color: #fff;
+      padding: .18rem .5rem;
+      border-radius: 6px;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+    }
+    .ann-content {
+      font-size: .9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .ann-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: .3rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .ann-date {
+      font-size: .78rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+    .ann-read-btn {
+      padding: .3rem .8rem;
+      border-radius: 7px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .ann-read-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    /* Category accent colors */
+    .acc-Admission { background: #2563eb; }
+    .acc-Academic  { background: #7c3aed; }
+    .acc-Holiday   { background: #d97706; }
+    .acc-Event     { background: #dc2626; }
+    .acc-General   { background: #1a6b3c; }
+
+    .cat-Admission { background: #2563eb; }
+    .cat-Academic  { background: #7c3aed; }
+    .cat-Holiday   { background: #d97706; }
+    .cat-Event     { background: #dc2626; }
+    .cat-General   { background: #1a6b3c; }
+
+    .cat-icon-Admission { content: '🎓'; }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.6rem;
+    }
+    .sum-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      text-align: center;
+    }
+    .sum-card .sum-num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .sum-card .sum-lbl { font-size: .78rem; color: var(--text-muted); margin-top: .3rem; font-weight: 600; }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+    }
+    .empty-state .es-icon { font-size: 3rem; margin-bottom: .8rem; }
+
+    .mark-all-btn {
+      padding: .42rem 1rem;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      border: none;
+      font-size: .83rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .2s;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .mark-all-btn:hover { opacity: .88; }
+
+    /* Detail Modal */
+    .ann-detail-cat {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .3rem .9rem;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: .8rem;
+    }
+    .ann-detail-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: .5rem;
+      line-height: 1.35;
+    }
+    .ann-detail-date {
+      font-size: .82rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .ann-detail-content {
+      font-size: .93rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      padding: 1rem;
+      background: var(--bg);
+      border-radius: 10px;
+      border-left: 3px solid var(--primary);
+    }
+  </style>
+</head>
+<body>
+<div class="db-wrapper">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">🎓</div>
+      <div class="logo-text"><h2>Dar-ul-Falah</h2><span>Student Portal</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">My Portal</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+      <a class="nav-item" href="courses.html"><span class="nav-icon">📚</span> My Courses</a>
+      <a class="nav-item" href="materials.html"><span class="nav-icon">📄</span> Study Materials</a>
+      <a class="nav-item active" href="announcements.html"><span class="nav-icon">📢</span> Announcements <span class="nav-badge" id="sidebarBadge">4</span></a>
+      <div class="nav-section-label">More</div>
+      <a class="nav-item" href="../index.html" target="_blank"><span class="nav-icon">🌐</span> Madrasa Website</a>
+      <a class="nav-item" href="../contact.html" target="_blank"><span class="nav-icon">✉️</span> Contact Us</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="s-avatar" id="sAvatar">🧑</div>
+        <div class="s-info"><span id="studentName">Student</span><small id="studentId">STU000</small></div>
+        <button class="btn-logout" onclick="logout()" title="Logout">🚪</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title">Announcements</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" id="notifBtn">🔔<span class="notif-dot" id="notifDot"></span></button>
+        <div class="topbar-avatar" id="topAvatar">🧑</div>
+      </div>
+    </header>
+
+    <main class="page-content">
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">📢 Announcements</h1>
+          <p class="page-subtitle">Stay updated with the latest news and events from Madrasa Dar-ul-Falah</p>
+        </div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="summary-row" id="summaryRow"></div>
+
+      <!-- Toolbar -->
+      <div class="ann-toolbar">
+        <div class="cat-filter" id="catFilter"></div>
+        <button class="mark-all-btn" onclick="markAllRead()">✅ Mark All as Read</button>
+      </div>
+
+      <!-- Announcements List -->
+      <div class="ann-list" id="annList"></div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="annDetailModal">
+  <div class="modal" style="max-width:540px;">
+    <div class="modal-header">
+      <h3 class="modal-title">Announcement</h3>
+      <button class="modal-close" onclick="closeModal('annDetailModal')">✕</button>
+    </div>
+    <div class="modal-body" id="annDetailBody"></div>
+  </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+  MdfAuth.requireStudent();
+
+  const user = MdfAuth.getUser();
+  document.getElementById('studentName').textContent = user.name.split(' ')[0];
+  document.getElementById('studentId').textContent   = user.studentId;
+  document.getElementById('sAvatar').textContent     = user.avatar || '🧑';
+  document.getElementById('topAvatar').textContent   = user.avatar || '🧑';
+
+  function logout() { MdfAuth.logout(); }
+
+  const catEmoji = { all:'📋', Admission:'🎓', Academic:'📖', Holiday:'🌙', Event:'🏆', General:'📌' };
+  const catColors = { Admission:'#2563eb', Academic:'#7c3aed', Holiday:'#d97706', Event:'#dc2626', General:'#1a6b3c' };
+
+  let announcements = MdfData.announcements.map((a, i) => ({ ...a, read: false, isNew: i < 2 }));
+  let activeCat = 'all';
+
+  function getFiltered() {
+    return activeCat === 'all' ? announcements : announcements.filter(a => a.category === activeCat);
+  }
+
+  function renderSummary() {
+    const categories = [...new Set(announcements.map(a => a.category))];
+    const unread = announcements.filter(a => !a.read).length;
+    document.getElementById('summaryRow').innerHTML = `
+      <div class="sum-card"><div class="sum-num">${announcements.length}</div><div class="sum-lbl">Total</div></div>
+      <div class="sum-card"><div class="sum-num" style="color:#dc2626">${unread}</div><div class="sum-lbl">Unread</div></div>
+      <div class="sum-card"><div class="sum-num">${categories.length}</div><div class="sum-lbl">Categories</div></div>
+    `;
+    // Update badge
+    const badge = document.getElementById('sidebarBadge');
+    if (unread > 0) { badge.textContent = unread; badge.style.display = 'inline-flex'; }
+    else { badge.style.display = 'none'; }
+    document.getElementById('notifDot').style.display = unread > 0 ? 'block' : 'none';
+  }
+
+  function renderCatFilter() {
+    const cats = ['all', ...new Set(announcements.map(a => a.category))];
+    const fb = document.getElementById('catFilter');
+    fb.innerHTML = cats.map(c => `
+      <button class="cat-btn${activeCat === c ? ' active' : ''}" data-cat="${c}"
+        onclick="setCat('${c}', this)">
+        ${catEmoji[c] || '📌'} ${c === 'all' ? 'All' : c}
+      </button>
+    `).join('');
+  }
+
+  function setCat(cat, btn) {
+    activeCat = cat;
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderList();
+  }
+
+  function renderList() {
+    const list = document.getElementById('annList');
+    const data = getFiltered();
+    if (!data.length) {
+      list.innerHTML = `<div class="empty-state"><div class="es-icon">📭</div><p>No announcements in this category.</p></div>`;
+      return;
+    }
+    list.innerHTML = data.map(a => {
+      const color = catColors[a.category] || '#1a6b3c';
+      return `
+        <div class="ann-card" id="ann-${a.id}" style="opacity:${a.read ? '.72' : '1'}">
+          <div class="ann-accent acc-${a.category}" style="background:${color}"></div>
+          <div class="ann-body">
+            <div class="ann-top">
+              <div class="ann-title">${a.read ? '' : '🔵 '}${a.title}</div>
+              <div class="ann-badges">
+                ${a.isNew && !a.read ? '<span class="ann-new">NEW</span>' : ''}
+                <span class="ann-cat cat-${a.category}" style="background:${color}">${catEmoji[a.category]||''} ${a.category}</span>
+              </div>
+            </div>
+            <div class="ann-content">${a.content}</div>
+            <div class="ann-footer">
+              <div class="ann-date">📅 ${a.date}</div>
+              <div style="display:flex;gap:.6rem;">
+                ${!a.read ? `<button class="ann-read-btn" onclick="markRead('${a.id}')">Mark as Read</button>` : `<span style="font-size:.78rem;color:var(--text-muted);">✅ Read</span>`}
+                <button class="ann-read-btn" onclick="viewDetail('${a.id}')" style="color:var(--primary);border-color:var(--primary)">View Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function markRead(id) {
+    const a = announcements.find(x => x.id === id);
+    if (a) { a.read = true; a.isNew = false; }
+    renderSummary();
+    renderList();
+    showToast('Announcement marked as read', 'success');
+  }
+
+  function markAllRead() {
+    announcements.forEach(a => { a.read = true; a.isNew = false; });
+    renderSummary();
+    renderList();
+    showToast('All announcements marked as read', 'success');
+  }
+
+  function viewDetail(id) {
+    const a = announcements.find(x => x.id === id);
+    if (!a) return;
+    if (!a.read) { a.read = true; a.isNew = false; renderSummary(); renderList(); }
+    const color = catColors[a.category] || '#1a6b3c';
+    document.getElementById('annDetailBody').innerHTML = `
+      <div style="padding:.2rem 0">
+        <div class="ann-detail-cat" style="background:${color}">${catEmoji[a.category]||'📌'} ${a.category}</div>
+        <div class="ann-detail-title">${a.title}</div>
+        <div class="ann-detail-date">📅 Published: ${a.date} &nbsp;·&nbsp; 🔖 ID: ${a.id}</div>
+        <div class="ann-detail-content">${a.content}</div>
+        <div style="margin-top:1.2rem;display:flex;justify-content:flex-end;">
+          <button class="btn btn-outline" onclick="closeModal('annDetailModal')">Close</button>
+        </div>
+      </div>
+    `;
+    openModal('annDetailModal');
+  }
+
+  renderSummary();
+  renderCatFilter();
+  renderList();
+  initSidebar();
+</script>
+</body>
+</html>

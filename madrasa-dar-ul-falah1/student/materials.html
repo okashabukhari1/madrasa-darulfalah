@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Materials — Student Portal | Madrasa Dar-ul-Falah</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <style>
+    .materials-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .filter-bar {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: .4rem 1rem;
+      border-radius: 20px;
+      border: 2px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all .25s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.2rem;
+    }
+    .material-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: .8rem;
+      transition: transform .25s, box-shadow .25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .material-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--gold));
+    }
+    .material-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,.12);
+    }
+    .mat-icon-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .mat-icon {
+      font-size: 2.2rem;
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(26,107,60,.08);
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .mat-meta { flex: 1; min-width: 0; }
+    .mat-title {
+      font-weight: 700;
+      font-size: .97rem;
+      color: var(--text);
+      margin-bottom: .2rem;
+      line-height: 1.3;
+    }
+    .mat-course {
+      font-size: .8rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .mat-details {
+      display: flex;
+      gap: 1rem;
+      font-size: .78rem;
+      color: var(--text-muted);
+    }
+    .mat-details span {
+      display: flex;
+      align-items: center;
+      gap: .25rem;
+    }
+    .mat-actions {
+      display: flex;
+      gap: .6rem;
+      margin-top: .4rem;
+    }
+    .btn-download {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      padding: .55rem 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: .85rem;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+      text-decoration: none;
+    }
+    .btn-download:hover {
+      opacity: .9;
+      transform: scale(1.02);
+    }
+    .btn-preview {
+      padding: .55rem .9rem;
+      background: transparent;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-preview:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .type-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: .2rem .55rem;
+      border-radius: 5px;
+      font-size: .72rem;
+      font-weight: 700;
+      background: rgba(201,168,76,.15);
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,.3);
+    }
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+      font-size: 1rem;
+      grid-column: 1/-1;
+    }
+    .empty-state .es-icon { font-size: 3rem; margin-bottom: .8rem; }
+    .search-box {
+      position: relative;
+    }
+    .search-box input {
+      padding: .5rem 1rem .5rem 2.4rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: var(--card-bg);
+      color: var(--text);
+      font-size: .88rem;
+      width: 220px;
+      transition: border-color .2s;
+    }
+    .search-box input:focus { outline: none; border-color: var(--primary); }
+    .search-box::before {
+      content: '🔍';
+      position: absolute;
+      left: .6rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: .85rem;
+    }
+    .stats-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .stat-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: .5rem 1.2rem;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .stat-pill strong { color: var(--primary); }
+    /* Preview modal */
+    .preview-body {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 2rem;
+      text-align: center;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .preview-body .prev-icon { font-size: 4rem; }
+    .preview-body h3 { font-size: 1.1rem; color: var(--text); }
+    .preview-body p { font-size: .88rem; color: var(--text-muted); max-width: 340px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+<div class="db-wrapper">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">🎓</div>
+      <div class="logo-text"><h2>Dar-ul-Falah</h2><span>Student Portal</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">My Portal</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+      <a class="nav-item" href="courses.html"><span class="nav-icon">📚</span> My Courses</a>
+      <a class="nav-item active" href="materials.html"><span class="nav-icon">📄</span> Study Materials</a>
+      <a class="nav-item" href="announcements.html"><span class="nav-icon">📢</span> Announcements <span class="nav-badge">4</span></a>
+      <div class="nav-section-label">More</div>
+      <a class="nav-item" href="../index.html" target="_blank"><span class="nav-icon">🌐</span> Madrasa Website</a>
+      <a class="nav-item" href="../contact.html" target="_blank"><span class="nav-icon">✉️</span> Contact Us</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="s-avatar" id="sAvatar">🧑</div>
+        <div class="s-info"><span id="studentName">Student</span><small id="studentId">STU000</small></div>
+        <button class="btn-logout" onclick="logout()" title="Logout">🚪</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title">Study Materials</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn">🔔<span class="notif-dot"></span></button>
+        <div class="topbar-avatar" id="topAvatar">🧑</div>
+      </div>
+    </header>
+
+    <main class="page-content">
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">📄 Study Materials</h1>
+          <p class="page-subtitle">Download notes, workbooks, and resources for your courses</p>
+        </div>
+      </div>
+
+      <!-- Stats Pills -->
+      <div class="stats-row" id="statsRow"></div>
+
+      <!-- Toolbar -->
+      <div class="materials-header">
+        <div class="filter-bar" id="filterBar">
+          <button class="filter-btn active" data-filter="all" onclick="filterMaterials('all', this)">All Materials</button>
+        </div>
+        <div class="search-box">
+          <input type="text" id="matSearch" placeholder="Search materials…" oninput="searchMaterials(this.value)">
+        </div>
+      </div>
+
+      <!-- Materials Grid -->
+      <div class="materials-grid" id="materialsGrid"></div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal-overlay" id="previewModal">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <h3 class="modal-title" id="previewTitle">Preview</h3>
+      <button class="modal-close" onclick="closeModal('previewModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="preview-body">
+        <div class="prev-icon" id="previewIcon">📄</div>
+        <h3 id="previewName">Document Name</h3>
+        <p id="previewDesc">This is a preview of the study material. In a live system, a PDF viewer would appear here.</p>
+        <div style="display:flex;gap:.8rem;margin-top:1rem;">
+          <button class="btn btn-primary" id="previewDownloadBtn">⬇ Download Now</button>
+          <button class="btn btn-outline" onclick="closeModal('previewModal')">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+  MdfAuth.requireStudent();
+
+  const user = MdfAuth.getUser();
+  document.getElementById('studentName').textContent = user.name.split(' ')[0];
+  document.getElementById('studentId').textContent   = user.studentId;
+  document.getElementById('sAvatar').textContent     = user.avatar || '🧑';
+  document.getElementById('topAvatar').textContent   = user.avatar || '🧑';
+
+  function logout() { MdfAuth.logout(); }
+
+  const allMaterials = MdfData.materials;
+  let filtered = [...allMaterials];
+
+  // Build filter buttons from unique courses
+  const courses = ['all', ...new Set(allMaterials.map(m => m.course))];
+  const filterBar = document.getElementById('filterBar');
+  filterBar.innerHTML = '';
+  courses.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (c === 'all' ? ' active' : '');
+    btn.dataset.filter = c;
+    btn.textContent = c === 'all' ? 'All Materials' : c;
+    btn.onclick = function() { filterMaterials(c, this); };
+    filterBar.appendChild(btn);
+  });
+
+  // Stats
+  function renderStats() {
+    const statsRow = document.getElementById('statsRow');
+    statsRow.innerHTML = `
+      <div class="stat-pill">📦 Total: <strong>${allMaterials.length}</strong></div>
+      <div class="stat-pill">📚 Courses: <strong>${new Set(allMaterials.map(m=>m.course)).size}</strong></div>
+      <div class="stat-pill">📄 PDFs: <strong>${allMaterials.filter(m=>m.type==='PDF').length}</strong></div>
+    `;
+  }
+
+  function renderGrid(data) {
+    const grid = document.getElementById('materialsGrid');
+    if (!data.length) {
+      grid.innerHTML = `<div class="empty-state"><div class="es-icon">🔍</div><p>No materials found.</p></div>`;
+      return;
+    }
+    grid.innerHTML = data.map(m => `
+      <div class="material-card">
+        <div class="mat-icon-row">
+          <div class="mat-icon">${m.icon}</div>
+          <div class="mat-meta">
+            <div class="mat-title">${m.title}</div>
+            <div class="mat-course">${m.course}</div>
+          </div>
+        </div>
+        <div class="mat-details">
+          <span>🗂 <span class="type-badge">${m.type}</span></span>
+          <span>💾 ${m.size}</span>
+          <span>📅 ${m.date}</span>
+        </div>
+        <div class="mat-actions">
+          <button class="btn-download" onclick="downloadMaterial('${m.id}')">⬇ Download</button>
+          <button class="btn-preview" onclick="previewMaterial('${m.id}')">👁 Preview</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function filterMaterials(course, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filtered = course === 'all' ? [...allMaterials] : allMaterials.filter(m => m.course === course);
+    const q = document.getElementById('matSearch').value.toLowerCase();
+    renderGrid(q ? filtered.filter(m => m.title.toLowerCase().includes(q) || m.course.toLowerCase().includes(q)) : filtered);
+  }
+
+  function searchMaterials(q) {
+    const base = document.querySelector('.filter-btn.active').dataset.filter;
+    const data = base === 'all' ? allMaterials : allMaterials.filter(m => m.course === base);
+    renderGrid(q ? data.filter(m => m.title.toLowerCase().includes(q.toLowerCase()) || m.course.toLowerCase().includes(q.toLowerCase())) : data);
+  }
+
+  function downloadMaterial(id) {
+    const m = allMaterials.find(x => x.id === id);
+    if (!m) return;
+    showToast(`⬇ Downloading "${m.title}"…`, 'info');
+    setTimeout(() => showToast(`✅ "${m.title}" downloaded successfully!`, 'success'), 1500);
+  }
+
+  function previewMaterial(id) {
+    const m = allMaterials.find(x => x.id === id);
+    if (!m) return;
+    document.getElementById('previewIcon').textContent = m.icon;
+    document.getElementById('previewName').textContent = m.title;
+    document.getElementById('previewTitle').textContent = 'Preview — ' + m.type;
+    document.getElementById('previewDesc').textContent =
+      `Course: ${m.course} · Size: ${m.size} · Uploaded: ${m.date}\n\nIn a live deployment, this area would render a PDF viewer or document preview.`;
+    document.getElementById('previewDownloadBtn').onclick = () => { closeModal('previewModal'); downloadMaterial(id); };
+    openModal('previewModal');
+  }
+
+  renderStats();
+  renderGrid(allMaterials);
+  initSidebar();
+</script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madrasa Dar-ul-Falah — Project Documentation</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:#f5f6fa;color:#333;line-height:1.75;font-size:15px}
+.hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);color:#fff;padding:55px 24px;text-align:center}
+.hero h1{font-size:2.3rem;color:#c8a951;margin-bottom:8px;font-weight:700}
+.hero p{font-size:1rem;opacity:.85;max-width:620px;margin:0 auto;line-height:1.7}
+.container{max-width:940px;margin:0 auto;padding:32px 24px}
+h2{font-size:1.4rem;color:#1a1a2e;margin:42px 0 10px;padding-bottom:8px;border-bottom:3px solid #c8a951;font-weight:700;display:flex;align-items:center;gap:8px}
+h2 i{color:#c8a951;font-size:1.3rem}
+.intro{font-size:.92rem;color:#666;margin-bottom:20px;line-height:1.7}
+.diagram-box{background:#fff;border-radius:14px;padding:28px 20px;box-shadow:0 2px 16px rgba(0,0,0,.06);margin-bottom:28px;text-align:center;overflow-x:auto}
+.diagram-box svg{max-width:100%;height:auto;display:inline-block}
+.items{list-style:none;padding:0;margin-bottom:28px}
+.items li{background:#fff;border-radius:10px;padding:13px 18px;margin-bottom:8px;box-shadow:0 1px 6px rgba(0,0,0,.04);display:flex;align-items:flex-start;gap:14px}
+.items li .ico{width:36px;height:36px;border-radius:8px;background:#f0e6c8;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.15rem;color:#856404}
+.items li .txt{flex:1}
+.items li .txt strong{display:block;font-size:.95rem;font-weight:600;color:#1a1a2e;margin-bottom:1px}
+.items li .txt span{font-size:.86rem;color:#666;line-height:1.5}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-bottom:28px}
+.card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.05);border-top:4px solid #c8a951}
+.card h3{font-size:1.05rem;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px;color:#1a1a2e}
+.card h3 i{color:#c8a951;font-size:1.2rem}
+.card>p{font-size:.85rem;color:#666;margin-bottom:10px}
+.card ul{padding-left:18px;font-size:.84rem;color:#555;line-height:1.8}
+.card ul li{display:list-item;background:none;padding:0;box-shadow:none;margin-bottom:2px}
+.note{background:linear-gradient(135deg,#fffbef,#fff);border:1px solid #eed99c;border-radius:12px;padding:18px 20px;margin-bottom:22px}
+.note h3{color:#7a6322;margin-bottom:4px;font-size:1rem;display:flex;align-items:center;gap:6px}
+.note p{font-size:.88rem;color:#666}
+footer{background:#1a1a2e;color:#888;text-align:center;padding:24px;margin-top:40px;font-size:.82rem}
+footer strong{color:#c8a951}
+@media(max-width:600px){.hero h1{font-size:1.7rem}.cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1><i class="bi bi-building"></i> Madrasa Dar-ul-Falah</h1>
+  <p>A complete website and management system for an Islamic educational institution. Here's everything it does, explained simply with diagrams.</p>
+</div>
+
+<div class="container">
+
+<h2><i class="bi bi-diagram-3"></i> System Overview</h2>
+<p class="intro">This diagram shows the complete system — the public website anyone can see, and the three private portals:</p>
+<div class="diagram-box">
+<svg viewBox="0 0 760 480" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Segoe UI,sans-serif">
+  <!-- Top title -->
+  <rect x="230" y="8" width="300" height="44" rx="22" fill="#1a1a2e"/>
+  <text x="380" y="36" text-anchor="middle" fill="#c8a951" font-size="15" font-weight="700">Madrasa Dar-ul-Falah</text>
+  <!-- Branches -->
+  <line x1="310" y1="52" x2="170" y2="90" stroke="#c8a951" stroke-width="2"/>
+  <line x1="450" y1="52" x2="580" y2="90" stroke="#c8a951" stroke-width="2"/>
+  <!-- Public box -->
+  <rect x="60" y="86" width="220" height="36" rx="18" fill="#0d6efd"/>
+  <text x="170" y="110" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">🌐 Public Website (Everyone)</text>
+  <line x1="170" y1="122" x2="170" y2="148" stroke="#0d6efd" stroke-width="2"/>
+  <rect x="30" y="148" width="280" height="220" rx="12" fill="#eaf1ff" stroke="#0d6efd" stroke-width="1"/>
+  <text x="50" y="174" fill="#0d6efd" font-size="11" font-weight="600">PUBLIC PAGES</text>
+  <text x="50" y="198" fill="#333" font-size="11">🏠  Home Page</text>
+  <text x="50" y="218" fill="#333" font-size="11">ℹ️  About Us</text>
+  <text x="50" y="238" fill="#333" font-size="11">📚  Courses</text>
+  <text x="50" y="258" fill="#333" font-size="11">👨‍🏫  Teachers</text>
+  <text x="50" y="278" fill="#333" font-size="11">🖼️  Photo Gallery</text>
+  <text x="50" y="298" fill="#333" font-size="11">📖  Digital Library</text>
+  <text x="50" y="318" fill="#333" font-size="11">✉️  Contact Us</text>
+  <text x="50" y="338" fill="#333" font-size="11">📋  Online Admission</text>
+  <text x="50" y="358" fill="#333" font-size="11">📅  Events &amp; Announcements</text>
+  <!-- Private portals header -->
+  <rect x="460" y="86" width="240" height="36" rx="18" fill="#198754"/>
+  <text x="580" y="110" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">🔒 Private Portals (Login)</text>
+  <!-- Three branches -->
+  <line x1="500" y1="122" x2="430" y2="150" stroke="#198754" stroke-width="2"/>
+  <line x1="580" y1="122" x2="580" y2="150" stroke="#198754" stroke-width="2"/>
+  <line x1="660" y1="122" x2="710" y2="150" stroke="#198754" stroke-width="2"/>
+  <!-- Admin -->
+  <rect x="350" y="148" width="150" height="32" rx="16" fill="#dc3545"/>
+  <text x="425" y="169" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">🛡️ Admin (20 modules)</text>
+  <rect x="350" y="188" width="150" height="165" rx="8" fill="#fce4e6" stroke="#dc3545" stroke-width="1"/>
+  <text x="362" y="208" fill="#444" font-size="10">• Students &amp; Teachers</text>
+  <text x="362" y="226" fill="#444" font-size="10">• Courses &amp; Categories</text>
+  <text x="362" y="244" fill="#444" font-size="10">• Admissions</text>
+  <text x="362" y="262" fill="#444" font-size="10">• Gallery &amp; Library</text>
+  <text x="362" y="280" fill="#444" font-size="10">• Announcements</text>
+  <text x="362" y="298" fill="#444" font-size="10">• Exams &amp; Attendance</text>
+  <text x="362" y="316" fill="#444" font-size="10">• Messages &amp; Users</text>
+  <text x="362" y="334" fill="#444" font-size="10">• Settings &amp; Staff</text>
+  <!-- Student -->
+  <rect x="510" y="148" width="130" height="32" rx="16" fill="#0d6efd"/>
+  <text x="575" y="169" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">🎓 Student</text>
+  <rect x="510" y="188" width="130" height="130" rx="8" fill="#eaf1ff" stroke="#0d6efd" stroke-width="1"/>
+  <text x="522" y="208" fill="#444" font-size="10">• Dashboard</text>
+  <text x="522" y="226" fill="#444" font-size="10">• My Courses</text>
+  <text x="522" y="244" fill="#444" font-size="10">• Attendance</text>
+  <text x="522" y="262" fill="#444" font-size="10">• Exam Results</text>
+  <text x="522" y="280" fill="#444" font-size="10">• Study Materials</text>
+  <text x="522" y="298" fill="#444" font-size="10">• Announcements</text>
+  <!-- Teacher -->
+  <rect x="650" y="148" width="105" height="32" rx="16" fill="#6f42c1"/>
+  <text x="703" y="169" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">👨‍🏫 Teacher</text>
+  <rect x="650" y="188" width="105" height="115" rx="8" fill="#ede5f6" stroke="#6f42c1" stroke-width="1"/>
+  <text x="662" y="208" fill="#444" font-size="10">• Dashboard</text>
+  <text x="662" y="226" fill="#444" font-size="10">• My Courses</text>
+  <text x="662" y="244" fill="#444" font-size="10">• Progress Logs</text>
+  <text x="662" y="262" fill="#444" font-size="10">• Attendance</text>
+  <text x="662" y="280" fill="#444" font-size="10">• Exams</text>
+  <!-- Database -->
+  <ellipse cx="380" cy="440" rx="130" ry="28" fill="#c8a951" opacity=".12" stroke="#c8a951" stroke-width="1.5"/>
+  <text x="380" y="445" text-anchor="middle" fill="#7a6322" font-size="12" font-weight="600">🗄️ MySQL Database</text>
+  <line x1="170" y1="368" x2="310" y2="418" stroke="#c8a951" stroke-width="1" stroke-dasharray="5"/>
+  <line x1="425" y1="353" x2="380" y2="415" stroke="#c8a951" stroke-width="1" stroke-dasharray="5"/>
+  <line x1="575" y1="318" x2="430" y2="418" stroke="#c8a951" stroke-width="1" stroke-dasharray="5"/>
+  <line x1="703" y1="303" x2="460" y2="418" stroke="#c8a951" stroke-width="1" stroke-dasharray="5"/>
+</svg>
+</div>
+
+<h2><i class="bi bi-arrow-repeat"></i> How Login Works</h2>
+<p class="intro">When someone logs in, the system checks their role and sends them to the right place:</p>
+<div class="diagram-box">
+<svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Segoe UI,sans-serif">
+  <defs>
+    <marker id="a1" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#c8a951"/></marker>
+    <marker id="a2" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#dc3545"/></marker>
+    <marker id="a3" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0d6efd"/></marker>
+    <marker id="a4" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6f42c1"/></marker>
+  </defs>
+  <rect x="10" y="65" width="130" height="50" rx="25" fill="#1a1a2e"/>
+  <text x="75" y="95" text-anchor="middle" fill="#c8a951" font-size="13" font-weight="700">User Logs In</text>
+  <line x1="140" y1="90" x2="210" y2="90" stroke="#c8a951" stroke-width="2" marker-end="url(#a1)"/>
+  <rect x="215" y="58" width="100" height="64" rx="10" fill="#fff3cd" stroke="#e9c644" stroke-width="1.5"/>
+  <text x="265" y="86" text-anchor="middle" fill="#7a6322" font-size="12" font-weight="600">Check</text>
+  <text x="265" y="103" text-anchor="middle" fill="#7a6322" font-size="12" font-weight="600">Role</text>
+  <line x1="315" y1="72" x2="415" y2="30" stroke="#dc3545" stroke-width="2" marker-end="url(#a2)"/>
+  <line x1="315" y1="90" x2="415" y2="90" stroke="#0d6efd" stroke-width="2" marker-end="url(#a3)"/>
+  <line x1="315" y1="108" x2="415" y2="150" stroke="#6f42c1" stroke-width="2" marker-end="url(#a4)"/>
+  <text x="370" y="40" fill="#dc3545" font-size="10" font-weight="600">Admin</text>
+  <text x="365" y="84" fill="#0d6efd" font-size="10" font-weight="600">Student</text>
+  <text x="368" y="146" fill="#6f42c1" font-size="10" font-weight="600">Teacher</text>
+  <rect x="420" y="10" width="220" height="38" rx="19" fill="#dc3545"/>
+  <text x="530" y="34" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">🛡️ Admin Dashboard</text>
+  <rect x="420" y="70" width="220" height="38" rx="19" fill="#0d6efd"/>
+  <text x="530" y="94" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">🎓 Student Dashboard</text>
+  <rect x="420" y="130" width="220" height="38" rx="19" fill="#6f42c1"/>
+  <text x="530" y="154" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">👨‍🏫 Teacher Portal</text>
+</svg>
+</div>
+
+<h2><i class="bi bi-gear"></i> Admin Control Center</h2>
+<p class="intro">The admin controls all parts of the system from one panel:</p>
+<div class="diagram-box">
+<svg viewBox="0 0 680 310" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Segoe UI,sans-serif">
+  <circle cx="340" cy="155" r="50" fill="#1a1a2e"/>
+  <text x="340" y="152" text-anchor="middle" fill="#c8a951" font-size="13" font-weight="700">Admin</text>
+  <text x="340" y="168" text-anchor="middle" fill="#c8a951" font-size="13" font-weight="700">Panel</text>
+  <!-- Lines -->
+  <line x1="340" y1="105" x2="340" y2="42" stroke="#dc3545" stroke-width="2"/>
+  <line x1="300" y1="115" x2="160" y2="52" stroke="#0d6efd" stroke-width="2"/>
+  <line x1="290" y1="155" x2="140" y2="155" stroke="#198754" stroke-width="2"/>
+  <line x1="300" y1="195" x2="160" y2="260" stroke="#6f42c1" stroke-width="2"/>
+  <line x1="340" y1="205" x2="340" y2="274" stroke="#fd7e14" stroke-width="2"/>
+  <line x1="380" y1="115" x2="520" y2="52" stroke="#0dcaf0" stroke-width="2"/>
+  <line x1="390" y1="155" x2="540" y2="155" stroke="#856404" stroke-width="2"/>
+  <line x1="380" y1="195" x2="520" y2="260" stroke="#6c757d" stroke-width="2"/>
+  <line x1="375" y1="200" x2="595" y2="274" stroke="#198754" stroke-width="2"/>
+  <!-- Nodes -->
+  <rect x="275" y="12" width="130" height="30" rx="15" fill="#dc3545"/><text x="340" y="32" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">👨‍🎓 Students</text>
+  <rect x="90" y="32" width="120" height="30" rx="15" fill="#0d6efd"/><text x="150" y="52" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">📚 Courses</text>
+  <rect x="18" y="140" width="122" height="30" rx="15" fill="#198754"/><text x="79" y="160" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">👨‍🏫 Teachers</text>
+  <rect x="90" y="248" width="120" height="30" rx="15" fill="#6f42c1"/><text x="150" y="268" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">📋 Admissions</text>
+  <rect x="275" y="274" width="130" height="30" rx="15" fill="#fd7e14"/><text x="340" y="294" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">✉️ Messages</text>
+  <rect x="470" y="32" width="110" height="30" rx="15" fill="#0dcaf0"/><text x="525" y="52" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">🖼️ Gallery</text>
+  <rect x="540" y="140" width="110" height="30" rx="15" fill="#c8a951"/><text x="595" y="160" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">📖 Library</text>
+  <rect x="460" y="248" width="140" height="30" rx="15" fill="#6c757d"/><text x="530" y="268" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">📢 Announcements</text>
+  <rect x="540" y="274" width="130" height="30" rx="15" fill="#198754"/><text x="605" y="294" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">📝 Exams</text>
+</svg>
+</div>
+
+<h2><i class="bi bi-globe"></i> Public Website Pages</h2>
+<p class="intro">Pages any visitor can see without logging in:</p>
+<ul class="items">
+  <li><div class="ico">🏠</div><div class="txt"><strong>Home Page</strong><span>Welcome message, featured courses, statistics, and latest news.</span></div></li>
+  <li><div class="ico">ℹ️</div><div class="txt"><strong>About Us</strong><span>Madrasa's history, mission, and management information.</span></div></li>
+  <li><div class="ico">📚</div><div class="txt"><strong>Courses</strong><span>All courses with category filtering. Click any for full details.</span></div></li>
+  <li><div class="ico">👨‍🏫</div><div class="txt"><strong>Teachers</strong><span>Faculty directory with photos, qualifications, and profiles.</span></div></li>
+  <li><div class="ico">🖼️</div><div class="txt"><strong>Photo Gallery</strong><span>Photos from events, campus, and activities.</span></div></li>
+  <li><div class="ico">📖</div><div class="txt"><strong>Maktaba (Library)</strong><span>Free Islamic books to download (PDF/Word), organized by category.</span></div></li>
+  <li><div class="ico">✉️</div><div class="txt"><strong>Contact Us</strong><span>Anyone can send a message — it goes to the admin panel.</span></div></li>
+  <li><div class="ico">📋</div><div class="txt"><strong>Online Admission</strong><span>Apply for admission online with course preference.</span></div></li>
+  <li><div class="ico">📅</div><div class="txt"><strong>Events &amp; Announcements</strong><span>Upcoming events and important madrasa news.</span></div></li>
+</ul>
+
+<h2><i class="bi bi-people"></i> The Three Portals</h2>
+<div class="cards">
+  <div class="card"><h3><i class="bi bi-shield-lock"></i> Admin</h3><p>Manages the entire system.</p><ul><li>Students, Teachers, Courses</li><li>Admissions &amp; Messages</li><li>Gallery &amp; Library</li><li>Announcements &amp; Events</li><li>Exams, Attendance, Staff</li><li>User Accounts &amp; Settings</li></ul></div>
+  <div class="card"><h3><i class="bi bi-mortarboard"></i> Student</h3><p>Views personal info.</p><ul><li>Dashboard &amp; Profile</li><li>My Courses</li><li>Attendance &amp; Exams</li><li>Study Materials</li><li>Announcements</li></ul></div>
+  <div class="card"><h3><i class="bi bi-person-video3"></i> Teacher</h3><p>Manages student progress.</p><ul><li>Dashboard &amp; Courses</li><li>Daily Progress Logs</li><li>Mark Attendance</li><li>Create &amp; Grade Exams</li><li>Announcements</li></ul></div>
+</div>
+
+<h2><i class="bi bi-stars"></i> Special Features</h2>
+<div class="note"><h3><i class="bi bi-translate"></i> Urdu Language Support</h3><p>Full English &amp; Urdu support with Jameel Noori Nastaleeq font. Text fields auto-switch to right-to-left when typing Urdu.</p></div>
+<ul class="items">
+  <li><div class="ico">🔑</div><div class="txt"><strong>Secure Login</strong><span>Password-protected accounts with OTP email reset.</span></div></li>
+  <li><div class="ico">📱</div><div class="txt"><strong>Mobile Friendly</strong><span>Works perfectly on phones, tablets, and computers.</span></div></li>
+  <li><div class="ico">🎨</div><div class="txt"><strong>Premium Design</strong><span>White-and-gold admin theme, modern clean public website.</span></div></li>
+  <li><div class="ico">📤</div><div class="txt"><strong>Large Uploads</strong><span>Gallery: up to 50MB. Teacher/Course images: up to 10MB.</span></div></li>
+</ul>
+
+<h2><i class="bi bi-wrench"></i> Built With</h2>
+<ul class="items">
+  <li><div class="ico">⚙️</div><div class="txt"><strong>Laravel 12</strong><span>PHP framework powering the entire website.</span></div></li>
+  <li><div class="ico">🗄️</div><div class="txt"><strong>MySQL</strong><span>Database storing all data.</span></div></li>
+  <li><div class="ico">🎨</div><div class="txt"><strong>Custom CSS</strong><span>Hand-crafted design — no templates.</span></div></li>
+</ul>
+
+</div>
+<footer><strong>Madrasa Dar-ul-Falah</strong> · Complete Educational Management System · March 2026</footer>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admissions — Admin | Madrasa Dar-ul-Falah</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+<div class="db-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🕌</div><div class="logo-text"><h2>Dar-ul-Falah</h2><span>Admin Panel</span></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+      <a class="nav-item" href="students.html"><span class="nav-icon">🎓</span> Students</a>
+      <a class="nav-item" href="courses.html"><span class="nav-icon">📚</span> Courses</a>
+      <a class="nav-item" href="teachers.html"><span class="nav-icon">👨‍🏫</span> Teachers</a>
+      <div class="nav-section-label">Management</div>
+      <a class="nav-item active" href="admissions.html"><span class="nav-icon">📋</span> Admissions</a>
+      <a class="nav-item" href="gallery.html"><span class="nav-icon">🖼️</span> Gallery</a>
+      <a class="nav-item" href="messages.html"><span class="nav-icon">✉️</span> Messages</a>
+      <a class="nav-item" href="announcements.html"><span class="nav-icon">📢</span> Announcements</a>
+      <div class="nav-section-label">Settings</div>
+      <a class="nav-item" href="../index.html" target="_blank"><span class="nav-icon">🌐</span> View Website</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user"><div class="s-avatar">👤</div><div class="s-info"><span id="adminName">Admin</span><small>Administrator</small></div><button class="btn-logout" onclick="logout()">🚪</button></div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title">Admission Management</div>
+      <div class="topbar-actions"><button class="topbar-btn">🔔</button><div class="topbar-avatar">👤</div></div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <div><h1>Admissions</h1><div class="breadcrumb">Admin → <span>Admissions</span></div></div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px;">
+        <div class="stat-card blue"><div class="stat-icon">📋</div><div class="stat-info"><h3 id="totalCount">0</h3><p>Total Applications</p></div></div>
+        <div class="stat-card gold"><div class="stat-icon">⏳</div><div class="stat-info"><h3 id="pendingCount">0</h3><p>Pending</p></div></div>
+        <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-info"><h3 id="approvedCount">0</h3><p>Approved</p></div></div>
+        <div class="stat-card red"><div class="stat-icon">❌</div><div class="stat-info"><h3 id="rejectedCount">0</h3><p>Rejected</p></div></div>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-search"><span>🔍</span><input type="text" id="admSearch" placeholder="Search applications…"></div>
+        <select class="filter-select" id="admStatusFilter" onchange="filterAdm()">
+          <option value="">All Status</option>
+          <option>pending</option><option>approved</option><option>rejected</option>
+        </select>
+        <select class="filter-select" id="admCourseFilter" onchange="filterAdm()">
+          <option value="">All Courses</option>
+        </select>
+      </div>
+
+      <div class="db-card">
+        <div class="db-card-header"><h2>📋 Applications</h2></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>#</th><th>Applicant</th><th>Course</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="admBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- VIEW MODAL -->
+<div class="modal-overlay" id="viewAdmModal">
+  <div class="modal">
+    <div class="modal-header"><h3>📋 Application Details</h3><button class="modal-close" onclick="closeModal('viewAdmModal')">✕</button></div>
+    <div class="modal-body" id="admDetails"></div>
+    <div class="modal-footer">
+      <button class="btn btn-danger btn-sm" id="rejectBtn">❌ Reject</button>
+      <button class="btn btn-primary btn-sm" id="approveBtn">✅ Approve</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+  const user = MdfAuth.requireRole('admin');
+  document.getElementById('adminName').textContent = user.name;
+  function logout() { MdfAuth.logout(); window.location.href = 'login.html'; }
+
+  let admissions = [...MdfData.admissions];
+  let currentAdmId = null;
+
+  // Populate course filter
+  const cf = document.getElementById('admCourseFilter');
+  MdfData.courses.forEach(c => cf.innerHTML += `<option>${c.name}</option>`);
+
+  function updateStats() {
+    document.getElementById('totalCount').textContent    = admissions.length;
+    document.getElementById('pendingCount').textContent  = admissions.filter(a => a.status==='pending').length;
+    document.getElementById('approvedCount').textContent = admissions.filter(a => a.status==='approved').length;
+    document.getElementById('rejectedCount').textContent = admissions.filter(a => a.status==='rejected').length;
+  }
+
+  function renderAdm(data) {
+    const tbody = document.getElementById('admBody');
+    tbody.innerHTML = '';
+    if (!data.length) {
+      tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">📋</div><p>No applications found.</p></div></td></tr>`;
+      return;
+    }
+    data.forEach((a,i) => {
+      tbody.innerHTML += `<tr>
+        <td style="color:var(--gray-400);font-size:12px;">${i+1}</td>
+        <td>
+          <div class="td-avatar">
+            <div class="avatar-circle">${a.name[0]}</div>
+            <div><div class="td-name">${a.name}</div><div class="td-sub">${a.email}</div></div>
+          </div>
+        </td>
+        <td>${a.course}</td>
+        <td>${a.date}</td>
+        <td><span class="badge badge-${a.status==='approved'?'green':a.status==='rejected'?'red':'gold'}">${a.status}</span></td>
+        <td>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-outline btn-xs" onclick="viewAdm('${a.id}')">👁 View</button>
+            ${a.status==='pending' ? `
+              <button class="btn btn-primary btn-xs" onclick="changeStatus('${a.id}','approved')">✅</button>
+              <button class="btn btn-danger btn-xs" onclick="changeStatus('${a.id}','rejected')">❌</button>
+            ` : ''}
+            <button class="btn btn-danger btn-xs" onclick="deleteAdm('${a.id}')">🗑️</button>
+          </div>
+        </td>
+      </tr>`;
+    });
+    updateStats();
+  }
+
+  function filterAdm() {
+    const q   = document.getElementById('admSearch').value.toLowerCase();
+    const st  = document.getElementById('admStatusFilter').value;
+    const co  = document.getElementById('admCourseFilter').value;
+    const filtered = admissions.filter(a =>
+      (a.name.toLowerCase().includes(q) || a.email.toLowerCase().includes(q)) &&
+      (!st || a.status === st) &&
+      (!co || a.course === co)
+    );
+    renderAdm(filtered);
+  }
+
+  document.getElementById('admSearch').addEventListener('input', filterAdm);
+
+  function viewAdm(id) {
+    const a = admissions.find(a => a.id === id);
+    if (!a) return;
+    currentAdmId = id;
+    document.getElementById('admDetails').innerHTML = `
+      <div class="profile-meta" style="grid-template-columns:1fr;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div><strong style="font-size:11px;text-transform:uppercase;color:var(--gray-400);">Application ID</strong><div style="font-size:14px;margin-top:3px;">${a.id}</div></div>
+          <div><strong style="font-size:11px;text-transform:uppercase;color:var(--gray-400);">Date</strong><div style="font-size:14px;margin-top:3px;">${a.date}</div></div>
+          <div><strong style="font-size:11px;text-transform:uppercase;color:var(--gray-400);">Name</strong><div style="font-size:14px;margin-top:3px;">${a.name}</div></div>
+          <div><strong style="font-size:11px;text-transform:uppercase;color:var(--gray-400);">Course</strong><div style="font-size:14px;margin-top:3px;">${a.course}</div></div>
+          <div><strong style="font-size:11px;text-transform:uppercase;color:var(--gray-400);">Email</strong><div style="font-size:14px;margin-top:3px;">${a.email}</div></div>
+          <div><strong style="font-size:11px;text-transform:uppercase;color:var(--gray-400);">Phone</strong><div style="font-size:14px;margin-top:3px;">${a.phone}</div></div>
+          <div><strong style="font-size:11px;text-transform:uppercase;color:var(--gray-400);">Status</strong><div style="margin-top:5px;"><span class="badge badge-${a.status==='approved'?'green':a.status==='rejected'?'red':'gold'}">${a.status}</span></div></div>
+        </div>
+      </div>`;
+    document.getElementById('approveBtn').onclick = () => { changeStatus(id,'approved'); closeModal('viewAdmModal'); };
+    document.getElementById('rejectBtn').onclick  = () => { changeStatus(id,'rejected'); closeModal('viewAdmModal'); };
+    if (a.status !== 'pending') {
+      document.getElementById('approveBtn').style.display = 'none';
+      document.getElementById('rejectBtn').style.display  = 'none';
+    } else {
+      document.getElementById('approveBtn').style.display = '';
+      document.getElementById('rejectBtn').style.display  = '';
+    }
+    openModal('viewAdmModal');
+  }
+
+  function changeStatus(id, status) {
+    const idx = admissions.findIndex(a => a.id === id);
+    if (idx >= 0) admissions[idx].status = status;
+    filterAdm();
+    showToast('Application ' + status + '!', status === 'approved' ? 'success' : 'error');
+  }
+
+  function deleteAdm(id) {
+    confirmDelete('Delete this application?', () => {
+      admissions = admissions.filter(a => a.id !== id);
+      filterAdm();
+      showToast('Application deleted.', 'error');
+    });
+  }
+
+  renderAdm(admissions);
+  updateStats();
+</script>
+</body>
+</html>

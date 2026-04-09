@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Courses — Admin | Madrasa Dar-ul-Falah</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+<div class="db-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🕌</div><div class="logo-text"><h2>Dar-ul-Falah</h2><span>Admin Panel</span></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+      <a class="nav-item" href="students.html"><span class="nav-icon">🎓</span> Students</a>
+      <a class="nav-item active" href="courses.html"><span class="nav-icon">📚</span> Courses</a>
+      <a class="nav-item" href="teachers.html"><span class="nav-icon">👨‍🏫</span> Teachers</a>
+      <div class="nav-section-label">Management</div>
+      <a class="nav-item" href="admissions.html"><span class="nav-icon">📋</span> Admissions</a>
+      <a class="nav-item" href="gallery.html"><span class="nav-icon">🖼️</span> Gallery</a>
+      <a class="nav-item" href="messages.html"><span class="nav-icon">✉️</span> Messages</a>
+      <a class="nav-item" href="announcements.html"><span class="nav-icon">📢</span> Announcements</a>
+      <div class="nav-section-label">Settings</div>
+      <a class="nav-item" href="../index.html" target="_blank"><span class="nav-icon">🌐</span> View Website</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="s-avatar">👤</div>
+        <div class="s-info"><span id="adminName">Admin</span><small>Administrator</small></div>
+        <button class="btn-logout" onclick="logout()">🚪</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title">Course Management</div>
+      <div class="topbar-actions"><button class="topbar-btn">🔔</button><div class="topbar-avatar">👤</div></div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <div><h1>Courses</h1><div class="breadcrumb">Admin → <span>Courses</span></div></div>
+        <button class="btn btn-primary" onclick="openModal('addCourseModal')">➕ Add Course</button>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-search"><span>🔍</span><input type="text" id="courseSearch" placeholder="Search courses…"></div>
+        <select class="filter-select" id="catFilter" onchange="filterCourses()">
+          <option value="">All Categories</option>
+          <option>Quran</option><option>Arabic</option><option>Alim</option><option>General</option>
+        </select>
+      </div>
+
+      <div class="db-card">
+        <div class="db-card-header">
+          <h2>📚 All Courses</h2>
+          <span style="font-size:13px;color:var(--gray-400);" id="courseCount"></span>
+        </div>
+        <div class="table-wrap">
+          <table id="coursesTable">
+            <thead>
+              <tr><th>Course</th><th>Category</th><th>Teacher</th><th>Duration</th><th>Students</th><th>Seats</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="coursesBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Course cards below table -->
+      <div style="margin-top:24px;">
+        <h2 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gray-800);margin-bottom:16px;">📊 Enrollment Overview</h2>
+        <div class="course-cards" id="courseCardsGrid"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ADD COURSE MODAL -->
+<div class="modal-overlay" id="addCourseModal">
+  <div class="modal">
+    <div class="modal-header"><h3>➕ Add New Course</h3><button class="modal-close" onclick="closeModal('addCourseModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Course Name</label><input class="form-control" id="cName" placeholder="e.g. Hifz-ul-Quran"></div>
+        <div class="form-group"><label>Icon (Emoji)</label><input class="form-control" id="cIcon" placeholder="📖" maxlength="4"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select class="form-control" id="cCategory">
+            <option>Quran</option><option>Arabic</option><option>Alim</option><option>General</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Duration</label><input class="form-control" id="cDuration" placeholder="e.g. 2 Years"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Assign Teacher</label>
+          <select class="form-control" id="cTeacher">
+            <option value="">Select Teacher</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Total Seats</label><input type="number" class="form-control" id="cSeats" placeholder="100" min="1"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addCourseModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addCourse()">💾 Save Course</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT COURSE MODAL -->
+<div class="modal-overlay" id="editCourseModal">
+  <div class="modal">
+    <div class="modal-header"><h3>✏️ Edit Course</h3><button class="modal-close" onclick="closeModal('editCourseModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="editCourseId">
+      <div class="form-row">
+        <div class="form-group"><label>Course Name</label><input class="form-control" id="editCName"></div>
+        <div class="form-group"><label>Duration</label><input class="form-control" id="editCDuration"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select class="form-control" id="editCCategory">
+            <option>Quran</option><option>Arabic</option><option>Alim</option><option>General</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Seats</label><input type="number" class="form-control" id="editCSeats"></div>
+      </div>
+      <div class="form-group">
+        <label>Assign Teacher</label>
+        <select class="form-control" id="editCTeacher"></select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('editCourseModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEditCourse()">💾 Update Course</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+  const user = MdfAuth.requireRole('admin');
+  document.getElementById('adminName').textContent = user.name;
+  function logout() { MdfAuth.logout(); window.location.href = 'login.html'; }
+
+  let courses = [...MdfData.courses];
+
+  // Populate teacher dropdowns
+  ['cTeacher','editCTeacher'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    MdfData.teachers.forEach(t => sel.innerHTML += `<option value="${t.name}">${t.name}</option>`);
+  });
+
+  function renderCourses(data) {
+    const tbody = document.getElementById('coursesBody');
+    tbody.innerHTML = '';
+    data.forEach(c => {
+      const pct = Math.round(c.students/c.seats*100);
+      tbody.innerHTML += `<tr>
+        <td><div class="td-avatar"><div class="avatar-circle" style="background:var(--primary)">${c.icon}</div><div><div class="td-name">${c.name}</div></div></div></td>
+        <td><span class="badge badge-${c.category==='Quran'?'green':c.category==='Arabic'?'blue':c.category==='Alim'?'purple':'gray'}">${c.category}</span></td>
+        <td><div class="td-sub">${c.teacher}</div></td>
+        <td>${c.duration}</td>
+        <td><strong>${c.students}</strong></td>
+        <td>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="chart-bar-track" style="flex:1;width:80px;">
+              <div class="chart-bar-fill" style="width:${pct}%"></div>
+            </div>
+            <span style="font-size:11px;color:var(--gray-500)">${c.students}/${c.seats}</span>
+          </div>
+        </td>
+        <td><span class="badge badge-green">${c.status}</span></td>
+        <td>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-outline btn-xs" onclick="editCourse('${c.id}')">✏️</button>
+            <button class="btn btn-danger btn-xs" onclick="deleteCourse('${c.id}')">🗑️</button>
+          </div>
+        </td>
+      </tr>`;
+    });
+    document.getElementById('courseCount').textContent = data.length + ' courses';
+
+    // Cards
+    const grid = document.getElementById('courseCardsGrid');
+    grid.innerHTML = '';
+    data.forEach((c,i) => {
+      const pct = Math.round(c.students/c.seats*100);
+      grid.innerHTML += `<div class="course-card-db">
+        <div class="course-card-top c${(i%4)+1}">${c.icon}</div>
+        <div class="course-card-body">
+          <div class="course-card-title">${c.name}</div>
+          <div class="course-card-meta">👨‍🏫 ${c.teacher} · ⏱ ${c.duration}</div>
+          <div class="course-progress">
+            <div class="progress-label"><span>Enrollment</span><span>${pct}%</span></div>
+            <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px;">
+            <button class="btn btn-outline btn-xs" onclick="editCourse('${c.id}')">✏️ Edit</button>
+            <button class="btn btn-danger btn-xs" onclick="deleteCourse('${c.id}')">🗑️ Delete</button>
+          </div>
+        </div>
+      </div>`;
+    });
+  }
+
+  function filterCourses() {
+    const q  = document.getElementById('courseSearch').value.toLowerCase();
+    const cat = document.getElementById('catFilter').value;
+    const filtered = courses.filter(c =>
+      c.name.toLowerCase().includes(q) && (!cat || c.category === cat)
+    );
+    renderCourses(filtered);
+  }
+
+  document.getElementById('courseSearch').addEventListener('input', filterCourses);
+
+  function addCourse() {
+    const name = document.getElementById('cName').value.trim();
+    const teacher = document.getElementById('cTeacher').value;
+    if (!name || !teacher) { showToast('Fill in all required fields.', 'error'); return; }
+    courses.unshift({
+      id: 'CRS' + String(courses.length+1).padStart(3,'0'),
+      name, icon: document.getElementById('cIcon').value || '📖',
+      category: document.getElementById('cCategory').value,
+      duration: document.getElementById('cDuration').value || 'TBD',
+      teacher,
+      seats: +document.getElementById('cSeats').value || 50,
+      students: 0,
+      status: 'active'
+    });
+    renderCourses(courses);
+    closeModal('addCourseModal');
+    showToast('Course added!');
+  }
+
+  function editCourse(id) {
+    const c = courses.find(c => c.id === id);
+    if (!c) return;
+    document.getElementById('editCourseId').value    = id;
+    document.getElementById('editCName').value       = c.name;
+    document.getElementById('editCDuration').value   = c.duration;
+    document.getElementById('editCCategory').value   = c.category;
+    document.getElementById('editCSeats').value      = c.seats;
+    document.getElementById('editCTeacher').value    = c.teacher;
+    openModal('editCourseModal');
+  }
+
+  function saveEditCourse() {
+    const id = document.getElementById('editCourseId').value;
+    const idx = courses.findIndex(c => c.id === id);
+    if (idx < 0) return;
+    courses[idx] = {
+      ...courses[idx],
+      name:     document.getElementById('editCName').value,
+      duration: document.getElementById('editCDuration').value,
+      category: document.getElementById('editCCategory').value,
+      seats:    +document.getElementById('editCSeats').value,
+      teacher:  document.getElementById('editCTeacher').value,
+    };
+    renderCourses(courses);
+    closeModal('editCourseModal');
+    showToast('Course updated!');
+  }
+
+  function deleteCourse(id) {
+    confirmDelete('Delete this course?', () => {
+      courses = courses.filter(c => c.id !== id);
+      filterCourses();
+      showToast('Course deleted.', 'error');
+    });
+  }
+
+  renderCourses(courses);
+</script>
+</body>
+</html>

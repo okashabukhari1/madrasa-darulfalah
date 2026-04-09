@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Courses — Student Portal | Madrasa Dar-ul-Falah</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+<div class="db-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🎓</div><div class="logo-text"><h2>Dar-ul-Falah</h2><span>Student Portal</span></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">My Portal</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+      <a class="nav-item active" href="courses.html"><span class="nav-icon">📚</span> My Courses</a>
+      <a class="nav-item" href="materials.html"><span class="nav-icon">📄</span> Study Materials</a>
+      <a class="nav-item" href="announcements.html"><span class="nav-icon">📢</span> Announcements</a>
+      <div class="nav-section-label">More</div>
+      <a class="nav-item" href="../index.html" target="_blank"><span class="nav-icon">🌐</span> Madrasa Website</a>
+      <a class="nav-item" href="../contact.html" target="_blank"><span class="nav-icon">✉️</span> Contact Us</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="s-avatar" id="sAvatar">🧑</div>
+        <div class="s-info"><span id="studentName">Student</span><small id="studentId">STU000</small></div>
+        <button class="btn-logout" onclick="logout()">🚪</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title">My Courses</div>
+      <div class="topbar-actions"><button class="topbar-btn">🔔</button><div class="topbar-avatar" id="topAvatar">🧑</div></div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <div><h1>My Courses</h1><div class="breadcrumb">Portal → <span>Courses</span></div></div>
+      </div>
+
+      <!-- Enrolled course detail card -->
+      <div class="db-card" style="margin-bottom:24px;" id="enrolledCourseCard">
+        <!-- populated by JS -->
+      </div>
+
+      <!-- Schedule -->
+      <h2 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gray-800);margin-bottom:16px;">📅 Weekly Schedule</h2>
+      <div class="db-card" style="margin-bottom:24px;">
+        <div class="table-wrap">
+          <table id="schedTable">
+            <thead>
+              <tr><th>Day</th><th>Course</th><th>Time</th><th>Teacher</th><th>Room</th></tr>
+            </thead>
+            <tbody id="schedBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Other available courses -->
+      <h2 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gray-800);margin-bottom:16px;">📚 Other Available Courses</h2>
+      <div class="course-cards" id="otherCourses"></div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+  const user = MdfAuth.requireStudent();
+  document.getElementById('sAvatar').textContent     = user.avatar || '🧑';
+  document.getElementById('topAvatar').textContent   = user.avatar || '🧑';
+  document.getElementById('studentName').textContent = user.name;
+  document.getElementById('studentId').textContent   = user.studentId || user.id;
+  function logout() { MdfAuth.logout(); window.location.href = 'login.html'; }
+
+  const courseData = MdfData.courses.find(c => c.name === user.course) || MdfData.courses[0];
+  const progress   = user.progress || 45;
+
+  // Enrolled card
+  document.getElementById('enrolledCourseCard').innerHTML = `
+    <div class="db-card-header">
+      <h2>${courseData.icon} ${user.course}</h2>
+      <span class="badge badge-green">Enrolled</span>
+    </div>
+    <div class="db-card-body">
+      <div class="grid-3" style="margin-bottom:20px;">
+        <div style="text-align:center;padding:16px;background:var(--gray-50);border-radius:var(--radius-sm);">
+          <div style="font-size:24px;font-weight:700;color:var(--primary);">${progress}%</div>
+          <div style="font-size:12px;color:var(--gray-500);">Completion</div>
+        </div>
+        <div style="text-align:center;padding:16px;background:var(--gray-50);border-radius:var(--radius-sm);">
+          <div style="font-size:24px;font-weight:700;color:var(--gold);">${courseData.duration}</div>
+          <div style="font-size:12px;color:var(--gray-500);">Duration</div>
+        </div>
+        <div style="text-align:center;padding:16px;background:var(--gray-50);border-radius:var(--radius-sm);">
+          <div style="font-size:24px;font-weight:700;color:var(--blue);">${user.session}</div>
+          <div style="font-size:12px;color:var(--gray-500);">Session</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <div style="margin-bottom:10px;"><strong style="font-size:11px;text-transform:uppercase;color:var(--gray-400);">Teacher</strong><div style="margin-top:4px;font-size:14px;">${courseData.teacher}</div></div>
+          <div style="margin-bottom:10px;"><strong style="font-size:11px;text-transform:uppercase;color:var(--gray-400);">Category</strong><div style="margin-top:4px;"><span class="badge badge-green">${courseData.category}</span></div></div>
+          <div><strong style="font-size:11px;text-transform:uppercase;color:var(--gray-400);">Joining Date</strong><div style="margin-top:4px;font-size:14px;">${user.joining}</div></div>
+        </div>
+        <div>
+          <strong style="font-size:11px;text-transform:uppercase;color:var(--gray-400);">Progress</strong>
+          <div class="course-progress" style="margin-top:8px;">
+            <div class="progress-label"><span>Overall Completion</span><span>${progress}%</span></div>
+            <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
+          </div>
+          <div style="margin-top:14px;"><strong style="font-size:11px;text-transform:uppercase;color:var(--gray-400);">Course Description</strong>
+          <div style="margin-top:6px;font-size:13px;color:var(--gray-600);line-height:1.6;">
+            ${user.course === 'Hifz-ul-Quran' ? 'Complete memorization of the Holy Quran with proper Tajweed rules and understanding of Waqf & Ibtida.' :
+              user.course === 'Tajweed' ? 'Learn the correct pronunciation and recitation rules of the Holy Quran through systematic Tajweed training.' :
+              'Comprehensive Islamic education covering core subjects of Dars-e-Nizami curriculum.'}
+          </div></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Schedule
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday'];
+  const times = user.session === 'Morning' ? ['8:00–9:00 AM','9:00–10:00 AM','8:00–9:30 AM','9:00–10:00 AM','8:00–10:00 AM'] : ['4:00–5:00 PM','5:00–6:00 PM','4:00–5:30 PM','5:00–6:00 PM','4:00–6:00 PM'];
+  const rooms = ['Room 1','Room 2','Room 3','Room 1','Room 2'];
+  const tbody = document.getElementById('schedBody');
+  days.forEach((d,i) => {
+    tbody.innerHTML += `<tr>
+      <td><span class="badge badge-${i===0?'green':'gray'}">${d}</span></td>
+      <td>${user.course}</td>
+      <td>${times[i]}</td>
+      <td>${courseData.teacher}</td>
+      <td>${rooms[i]}</td>
+    </tr>`;
+  });
+
+  // Other courses
+  const otherCoursesEl = document.getElementById('otherCourses');
+  MdfData.courses.filter(c => c.name !== user.course).slice(0,4).forEach((c,i) => {
+    otherCoursesEl.innerHTML += `<div class="course-card-db">
+      <div class="course-card-top c${(i%4)+1}">${c.icon}</div>
+      <div class="course-card-body">
+        <div class="course-card-title">${c.name}</div>
+        <div class="course-card-meta">👨‍🏫 ${c.teacher} · ⏱ ${c.duration}</div>
+        <div style="margin-top:10px;font-size:12px;color:var(--gray-500);">
+          <span class="badge badge-gray">${c.category}</span>
+          <span style="margin-left:6px;">${c.students} enrolled</span>
+        </div>
+        <a href="../admission.html" class="btn btn-outline btn-xs" style="margin-top:12px;">Apply Now</a>
+      </div>
+    </div>`;
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — Madrasa Dar-ul-Falah</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <style>
+    .eye-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--gray-400); font-size: 16px; padding: 0 4px;
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      transition: var(--transition);
+    }
+    .eye-btn:hover { color: var(--primary); }
+    .pw-wrap { position: relative; }
+    .pw-wrap .form-control { padding-right: 38px; }
+    .error-msg { color: var(--red); font-size: 12px; margin-top: 4px; display: none; }
+    .error-msg.show { display: block; }
+  </style>
+</head>
+<body>
+<div class="login-page">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="logo-badge">🕌</div>
+      <h2>Madrasa Dar-ul-Falah</h2>
+      <p>Administration Portal</p>
+    </div>
+
+    <div class="notice notice-blue" style="margin-bottom:20px;">
+      <span class="notice-icon">🔒</span>
+      <span>Restricted access — authorised staff only</span>
+    </div>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label>Email / Username</label>
+        <input type="text" id="loginId" class="form-control" placeholder="admin@darulfalah.edu.pk" autocomplete="username">
+        <span class="error-msg" id="idError">Please enter your email or username.</span>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="loginPw" class="form-control" placeholder="••••••••" autocomplete="current-password">
+          <button type="button" class="eye-btn" onclick="togglePw()">👁</button>
+        </div>
+        <span class="error-msg" id="pwError">Incorrect password. Please try again.</span>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--gray-600);cursor:pointer;">
+          <input type="checkbox" id="rememberMe"> Remember me
+        </label>
+        <a href="#" style="font-size:13px;color:var(--primary);">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;">
+        🔑 Sign In to Dashboard
+      </button>
+    </form>
+
+    <div class="demo-creds">
+      <strong>Demo Credentials</strong><br>
+      Email: <strong>admin@darulfalah.edu.pk</strong><br>
+      Password: <strong>admin123</strong>
+    </div>
+
+    <p style="text-align:center;margin-top:20px;font-size:12px;color:var(--gray-400);">
+      Are you a student? <a href="../student/login.html" style="color:var(--primary);">Student Login →</a>
+    </p>
+  </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+  // Already logged in?
+  (function() {
+    const u = MdfAuth.getUser();
+    if (u && u.role === 'admin') window.location.href = 'dashboard.html';
+  })();
+
+  function togglePw() {
+    const f = document.getElementById('loginPw');
+    f.type = f.type === 'password' ? 'text' : 'password';
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const id = document.getElementById('loginId').value.trim();
+    const pw = document.getElementById('loginPw').value;
+    let ok = true;
+
+    document.getElementById('idError').classList.remove('show');
+    document.getElementById('pwError').classList.remove('show');
+
+    if (!id) { document.getElementById('idError').classList.add('show'); ok = false; }
+
+    if (ok) {
+      const user = MdfAuth.login(id, pw);
+      if (!user || user.role !== 'admin') {
+        document.getElementById('pwError').textContent = 'Invalid credentials or not an admin account.';
+        document.getElementById('pwError').classList.add('show');
+      } else {
+        showToast('Welcome back, ' + user.name + '!', 'success');
+        setTimeout(() => window.location.href = 'dashboard.html', 800);
+      }
+    }
+  });
+</script>
+</body>
+</html>

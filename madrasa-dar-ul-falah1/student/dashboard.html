@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Dashboard — Student Portal | Madrasa Dar-ul-Falah</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+<div class="db-wrapper">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">🎓</div>
+      <div class="logo-text"><h2>Dar-ul-Falah</h2><span>Student Portal</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">My Portal</div>
+      <a class="nav-item active" href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+      <a class="nav-item" href="courses.html"><span class="nav-icon">📚</span> My Courses</a>
+      <a class="nav-item" href="materials.html"><span class="nav-icon">📄</span> Study Materials</a>
+      <a class="nav-item" href="announcements.html"><span class="nav-icon">📢</span> Announcements <span class="nav-badge">4</span></a>
+      <div class="nav-section-label">More</div>
+      <a class="nav-item" href="../index.html" target="_blank"><span class="nav-icon">🌐</span> Madrasa Website</a>
+      <a class="nav-item" href="../contact.html" target="_blank"><span class="nav-icon">✉️</span> Contact Us</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="s-avatar" id="sAvatar">🧑</div>
+        <div class="s-info"><span id="studentName">Student</span><small id="studentId">STU000</small></div>
+        <button class="btn-logout" onclick="logout()" title="Logout">🚪</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title">Student Dashboard</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn">🔔<span class="notif-dot"></span></button>
+        <div class="topbar-avatar" id="topAvatar">🧑</div>
+      </div>
+    </header>
+
+    <main class="page-content">
+
+      <!-- Welcome banner -->
+      <div class="welcome-banner" id="welcomeBanner">
+        <div>
+          <h2 id="welcomeMsg">As-salamu Alaykum!</h2>
+          <p id="welcomeSub">Welcome to your student portal</p>
+        </div>
+        <div class="wb-actions">
+          <a href="courses.html" class="btn btn-gold btn-sm">📚 My Courses</a>
+          <a href="materials.html" class="btn btn-outline btn-sm" style="color:#fff;border-color:rgba(255,255,255,.4);">📄 Materials</a>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid" style="margin-bottom:28px;">
+        <div class="stat-card green">
+          <div class="stat-icon">📚</div>
+          <div class="stat-info"><h3 data-count="1">0</h3><p>Enrolled Course</p></div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-icon">📄</div>
+          <div class="stat-info"><h3 data-count="6">0</h3><p>Study Materials</p></div>
+        </div>
+        <div class="stat-card gold">
+          <div class="stat-icon">📢</div>
+          <div class="stat-info"><h3 data-count="4">0</h3><p>Announcements</p></div>
+        </div>
+        <div class="stat-card purple">
+          <div class="stat-icon">📅</div>
+          <div class="stat-info"><h3 data-count="5">0</h3><p>Classes/Week</p></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+
+        <!-- Current course card -->
+        <div class="db-card">
+          <div class="db-card-header"><h2>📚 My Course</h2><a href="courses.html" class="btn btn-outline btn-xs">Details</a></div>
+          <div class="db-card-body">
+            <div class="course-card-db" id="currentCourseCard" style="border:none;box-shadow:none;padding:0;">
+              <!-- filled by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Upcoming Schedule -->
+        <div class="db-card">
+          <div class="db-card-header"><h2>📅 This Week's Classes</h2></div>
+          <div class="item-list" id="scheduleList"></div>
+        </div>
+
+      </div>
+
+      <div class="grid-2" style="margin-top:24px;">
+
+        <!-- Recent Announcements -->
+        <div class="db-card">
+          <div class="db-card-header"><h2>📢 Announcements</h2><a href="announcements.html" class="btn btn-outline btn-xs">All</a></div>
+          <div class="item-list" id="annList"></div>
+        </div>
+
+        <!-- Recent Materials -->
+        <div class="db-card">
+          <div class="db-card-header"><h2>📄 Recent Materials</h2><a href="materials.html" class="btn btn-outline btn-xs">All</a></div>
+          <div id="matList" style="padding:12px;"></div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+  const user = MdfAuth.requireStudent();
+  document.getElementById('studentName').textContent = user.name;
+  document.getElementById('studentId').textContent   = user.studentId || user.id;
+  document.getElementById('sAvatar').textContent     = user.avatar || '🧑';
+  document.getElementById('topAvatar').textContent   = user.avatar || '🧑';
+  document.getElementById('welcomeMsg').textContent  = 'As-salamu Alaykum, ' + user.name.split(' ')[0] + '! 🌙';
+  document.getElementById('welcomeSub').textContent  = 'Enrolled in ' + user.course + ' · ' + user.session + ' Session';
+
+  function logout() { MdfAuth.logout(); window.location.href = 'login.html'; }
+
+  // Current course card
+  const courseData = MdfData.courses.find(c => c.name === user.course) || MdfData.courses[0];
+  const progress   = user.progress || 45;
+  document.getElementById('currentCourseCard').innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
+      <div style="width:52px;height:52px;background:linear-gradient(135deg,var(--primary-dark),var(--primary-light));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;">${courseData.icon}</div>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gray-800);">${user.course}</div>
+        <div style="font-size:12px;color:var(--gray-500);">👨‍🏫 ${courseData.teacher}</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div style="background:var(--gray-50);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:700;color:var(--primary);">${progress}%</div>
+        <div style="font-size:11px;color:var(--gray-500);">Progress</div>
+      </div>
+      <div style="background:var(--gray-50);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:700;color:var(--gold);">${courseData.duration}</div>
+        <div style="font-size:11px;color:var(--gray-500);">Duration</div>
+      </div>
+    </div>
+    <div class="course-progress">
+      <div class="progress-label"><span>Course Completion</span><span>${progress}%</span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
+    </div>
+  `;
+
+  // Schedule
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday'];
+  const times = user.session === 'Morning' ? '8:00 – 10:00 AM' : '4:00 – 6:00 PM';
+  const scheduleEl = document.getElementById('scheduleList');
+  days.forEach((d,i) => {
+    scheduleEl.innerHTML += `<div class="list-item">
+      <div class="list-item-icon" style="background:${i%2===0?'var(--green-light)':'var(--blue-light)'}">${i%2===0?'📖':'🕌'}</div>
+      <div class="list-item-content">
+        <div class="list-item-title">${user.course}</div>
+        <div class="list-item-meta">${d} · ${times}</div>
+      </div>
+      <span class="badge badge-${i===0?'green':'gray'}">${i===0?'Today':'Upcoming'}</span>
+    </div>`;
+  });
+
+  // Announcements
+  const annEl = document.getElementById('annList');
+  MdfData.announcements.slice(0,4).forEach(a => {
+    const catColor = {Admission:'blue',Academic:'green',Holiday:'orange',Event:'purple'}[a.category]||'gray';
+    annEl.innerHTML += `<div class="list-item">
+      <div class="list-item-icon" style="background:var(--${catColor}-light,var(--gray-100))">📢</div>
+      <div class="list-item-content">
+        <div class="list-item-title">${a.title}</div>
+        <div class="list-item-meta">${a.date} · <span class="badge badge-${catColor}">${a.category}</span></div>
+      </div>
+    </div>`;
+  });
+
+  // Materials
+  const matEl = document.getElementById('matList');
+  MdfData.materials.slice(0,3).forEach(m => {
+    matEl.innerHTML += `<div class="material-item">
+      <div class="mat-icon" style="background:var(--beige)">${m.icon}</div>
+      <div class="mat-info">
+        <div class="mat-title">${m.title}</div>
+        <div class="mat-meta">${m.type} · ${m.size} · ${m.date}</div>
+      </div>
+      <button class="btn btn-outline btn-xs">⬇️</button>
+    </div>`;
+  });
+</script>
+</body>
+</html>

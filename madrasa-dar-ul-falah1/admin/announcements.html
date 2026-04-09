@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcements — Admin | Madrasa Dar-ul-Falah</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+<div class="db-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🕌</div><div class="logo-text"><h2>Dar-ul-Falah</h2><span>Admin Panel</span></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+      <a class="nav-item" href="students.html"><span class="nav-icon">🎓</span> Students</a>
+      <a class="nav-item" href="courses.html"><span class="nav-icon">📚</span> Courses</a>
+      <a class="nav-item" href="teachers.html"><span class="nav-icon">👨‍🏫</span> Teachers</a>
+      <div class="nav-section-label">Management</div>
+      <a class="nav-item" href="admissions.html"><span class="nav-icon">📋</span> Admissions</a>
+      <a class="nav-item" href="gallery.html"><span class="nav-icon">🖼️</span> Gallery</a>
+      <a class="nav-item" href="messages.html"><span class="nav-icon">✉️</span> Messages</a>
+      <a class="nav-item active" href="announcements.html"><span class="nav-icon">📢</span> Announcements</a>
+      <div class="nav-section-label">Settings</div>
+      <a class="nav-item" href="../index.html" target="_blank"><span class="nav-icon">🌐</span> View Website</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user"><div class="s-avatar">👤</div><div class="s-info"><span id="adminName">Admin</span><small>Administrator</small></div><button class="btn-logout" onclick="logout()">🚪</button></div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title">Announcements</div>
+      <div class="topbar-actions"><button class="topbar-btn">🔔</button><div class="topbar-avatar">👤</div></div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <div><h1>Announcements</h1><div class="breadcrumb">Admin → <span>Announcements</span></div></div>
+        <button class="btn btn-primary" onclick="openModal('addAnnModal')">➕ New Announcement</button>
+      </div>
+
+      <!-- Active announcements -->
+      <div class="db-card" style="margin-bottom:24px;">
+        <div class="db-card-header"><h2>📢 Active Announcements</h2></div>
+        <div id="annList" class="item-list"></div>
+      </div>
+
+      <!-- All in table -->
+      <div class="db-card">
+        <div class="db-card-header"><h2>📋 All Announcements</h2></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="annTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ADD ANNOUNCEMENT MODAL -->
+<div class="modal-overlay" id="addAnnModal">
+  <div class="modal">
+    <div class="modal-header"><h3>📢 New Announcement</h3><button class="modal-close" onclick="closeModal('addAnnModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Title</label><input class="form-control" id="annTitle" placeholder="Announcement title"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select class="form-control" id="annCategory">
+            <option>Admission</option><option>Academic</option><option>Holiday</option><option>Event</option><option>General</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select class="form-control" id="annStatus"><option>active</option><option>archived</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label>Content</label><textarea class="form-control" id="annContent" rows="4" placeholder="Write announcement content here…"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addAnnModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addAnn()">📢 Post Announcement</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT ANNOUNCEMENT MODAL -->
+<div class="modal-overlay" id="editAnnModal">
+  <div class="modal">
+    <div class="modal-header"><h3>✏️ Edit Announcement</h3><button class="modal-close" onclick="closeModal('editAnnModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="editAnnId">
+      <div class="form-group"><label>Title</label><input class="form-control" id="editAnnTitle"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select class="form-control" id="editAnnCategory">
+            <option>Admission</option><option>Academic</option><option>Holiday</option><option>Event</option><option>General</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select class="form-control" id="editAnnStatus"><option>active</option><option>archived</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label>Content</label><textarea class="form-control" id="editAnnContent" rows="4"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('editAnnModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEditAnn()">💾 Update</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+  const user = MdfAuth.requireRole('admin');
+  document.getElementById('adminName').textContent = user.name;
+  function logout() { MdfAuth.logout(); window.location.href = 'login.html'; }
+
+  let announcements = [...MdfData.announcements];
+  const catColor = { Admission:'blue', Academic:'green', Holiday:'orange', Event:'purple', General:'gray' };
+  const catIcon  = { Admission:'📋', Academic:'📚', Holiday:'🌙', Event:'🎉', General:'📢' };
+
+  function renderAnn() {
+    // List (active)
+    const list = document.getElementById('annList');
+    list.innerHTML = '';
+    const active = announcements.filter(a => a.status === 'active');
+    if (!active.length) {
+      list.innerHTML = `<div class="empty-state"><div class="empty-icon">📢</div><p>No active announcements.</p></div>`;
+    } else {
+      active.forEach(a => {
+        list.innerHTML += `<div class="list-item">
+          <div class="list-item-icon" style="background:var(--${catColor[a.category]||'gray'}-light,var(--gray-100))">${catIcon[a.category]||'📢'}</div>
+          <div class="list-item-content">
+            <div class="list-item-title">${a.title}</div>
+            <div class="list-item-meta">${a.date} · <span class="badge badge-${catColor[a.category]||'gray'}">${a.category}</span></div>
+            <div style="font-size:12px;color:var(--gray-500);margin-top:4px;">${a.content.substring(0,100)}…</div>
+          </div>
+          <div class="list-item-actions">
+            <button class="btn btn-outline btn-xs" onclick="editAnn('${a.id}')">✏️</button>
+            <button class="btn btn-danger btn-xs" onclick="deleteAnn('${a.id}')">🗑️</button>
+          </div>
+        </div>`;
+      });
+    }
+
+    // Table
+    const tbody = document.getElementById('annTableBody');
+    tbody.innerHTML = '';
+    announcements.forEach(a => {
+      tbody.innerHTML += `<tr>
+        <td><div class="td-name">${a.title}</div></td>
+        <td><span class="badge badge-${catColor[a.category]||'gray'}">${a.category}</span></td>
+        <td>${a.date}</td>
+        <td><span class="badge badge-${a.status==='active'?'green':'gray'}">${a.status}</span></td>
+        <td>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-outline btn-xs" onclick="editAnn('${a.id}')">✏️ Edit</button>
+            <button class="btn btn-danger btn-xs" onclick="deleteAnn('${a.id}')">🗑️</button>
+          </div>
+        </td>
+      </tr>`;
+    });
+  }
+
+  function addAnn() {
+    const title = document.getElementById('annTitle').value.trim();
+    const content = document.getElementById('annContent').value.trim();
+    if (!title || !content) { showToast('Title and content are required.', 'error'); return; }
+    announcements.unshift({
+      id: 'ANN' + String(announcements.length+1).padStart(3,'0'),
+      title,
+      content,
+      category: document.getElementById('annCategory').value,
+      status:   document.getElementById('annStatus').value,
+      date: new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})
+    });
+    renderAnn();
+    closeModal('addAnnModal');
+    showToast('Announcement posted!');
+  }
+
+  function editAnn(id) {
+    const a = announcements.find(a => a.id === id);
+    if (!a) return;
+    document.getElementById('editAnnId').value       = id;
+    document.getElementById('editAnnTitle').value    = a.title;
+    document.getElementById('editAnnContent').value  = a.content;
+    document.getElementById('editAnnCategory').value = a.category;
+    document.getElementById('editAnnStatus').value   = a.status;
+    openModal('editAnnModal');
+  }
+
+  function saveEditAnn() {
+    const id = document.getElementById('editAnnId').value;
+    const idx = announcements.findIndex(a => a.id === id);
+    if (idx < 0) return;
+    announcements[idx] = {
+      ...announcements[idx],
+      title:    document.getElementById('editAnnTitle').value,
+      content:  document.getElementById('editAnnContent').value,
+      category: document.getElementById('editAnnCategory').value,
+      status:   document.getElementById('editAnnStatus').value,
+    };
+    renderAnn();
+    closeModal('editAnnModal');
+    showToast('Announcement updated!');
+  }
+
+  function deleteAnn(id) {
+    confirmDelete('Delete this announcement?', () => {
+      announcements = announcements.filter(a => a.id !== id);
+      renderAnn();
+      showToast('Announcement deleted.', 'error');
+    });
+  }
+
+  renderAnn();
+</script>
+</body>
+</html>

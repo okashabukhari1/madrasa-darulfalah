@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — Admin | Madrasa Dar-ul-Falah</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <style>
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 14px; }
+    .gallery-item {
+      background: var(--gray-100);
+      border-radius: var(--radius-sm);
+      aspect-ratio: 4/3;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-size: 40px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid transparent;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .gallery-item:hover { border-color: var(--primary); }
+    .gallery-item .g-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.55);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 8px;
+      opacity: 0; transition: var(--transition);
+    }
+    .gallery-item:hover .g-overlay { opacity: 1; }
+    .gallery-item .g-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,.5);
+      color: #fff; font-size: 11px; padding: 5px 8px;
+    }
+    .upload-zone {
+      border: 2px dashed var(--gray-300);
+      border-radius: var(--radius);
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 20px;
+    }
+    .upload-zone:hover { border-color: var(--primary); background: var(--beige); }
+    .upload-zone .up-icon { font-size: 40px; margin-bottom: 10px; }
+    .upload-zone p { color: var(--gray-500); font-size: 14px; }
+  </style>
+</head>
+<body>
+<div class="db-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🕌</div><div class="logo-text"><h2>Dar-ul-Falah</h2><span>Admin Panel</span></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+      <a class="nav-item" href="students.html"><span class="nav-icon">🎓</span> Students</a>
+      <a class="nav-item" href="courses.html"><span class="nav-icon">📚</span> Courses</a>
+      <a class="nav-item" href="teachers.html"><span class="nav-icon">👨‍🏫</span> Teachers</a>
+      <div class="nav-section-label">Management</div>
+      <a class="nav-item" href="admissions.html"><span class="nav-icon">📋</span> Admissions</a>
+      <a class="nav-item active" href="gallery.html"><span class="nav-icon">🖼️</span> Gallery</a>
+      <a class="nav-item" href="messages.html"><span class="nav-icon">✉️</span> Messages</a>
+      <a class="nav-item" href="announcements.html"><span class="nav-icon">📢</span> Announcements</a>
+      <div class="nav-section-label">Settings</div>
+      <a class="nav-item" href="../index.html" target="_blank"><span class="nav-icon">🌐</span> View Website</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user"><div class="s-avatar">👤</div><div class="s-info"><span id="adminName">Admin</span><small>Administrator</small></div><button class="btn-logout" onclick="logout()">🚪</button></div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title">Gallery Management</div>
+      <div class="topbar-actions"><button class="topbar-btn">🔔</button><div class="topbar-avatar">👤</div></div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <div><h1>Gallery</h1><div class="breadcrumb">Admin → <span>Gallery</span></div></div>
+        <button class="btn btn-primary" onclick="openModal('addImageModal')">⬆️ Upload Image</button>
+      </div>
+
+      <!-- Upload zone -->
+      <div class="upload-zone" onclick="openModal('addImageModal')">
+        <div class="up-icon">🖼️</div>
+        <p>Click to upload images or drag & drop here</p>
+        <p style="font-size:12px;color:var(--gray-400);margin-top:4px;">PNG, JPG, WEBP supported</p>
+      </div>
+
+      <!-- Filter -->
+      <div class="filter-bar" style="margin-bottom:16px;">
+        <select class="filter-select" id="galFilter" onchange="filterGallery()">
+          <option value="">All Categories</option>
+          <option>Events</option><option>Classes</option><option>Campus</option><option>Graduation</option><option>Other</option>
+        </select>
+        <span style="font-size:13px;color:var(--gray-500);" id="galCount"></span>
+      </div>
+
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </main>
+  </div>
+</div>
+
+<!-- ADD IMAGE MODAL -->
+<div class="modal-overlay" id="addImageModal">
+  <div class="modal">
+    <div class="modal-header"><h3>⬆️ Add Gallery Image</h3><button class="modal-close" onclick="closeModal('addImageModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Image Emoji / Icon</label>
+        <input class="form-control" id="imgEmoji" placeholder="🕌 (use any emoji as placeholder)" maxlength="4">
+      </div>
+      <div class="form-group">
+        <label>Caption / Title</label>
+        <input class="form-control" id="imgCaption" placeholder="e.g. Annual Quranic Competition 2025">
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select class="form-control" id="imgCategory">
+          <option>Events</option><option>Classes</option><option>Campus</option><option>Graduation</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addImageModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addImage()">💾 Add to Gallery</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+  const user = MdfAuth.requireRole('admin');
+  document.getElementById('adminName').textContent = user.name;
+  function logout() { MdfAuth.logout(); window.location.href = 'login.html'; }
+
+  let images = [
+    { id:'IMG001', emoji:'🕌', caption:'Main Mosque Hall',           category:'Campus'    },
+    { id:'IMG002', emoji:'📖', caption:'Hifz Class Session',         category:'Classes'   },
+    { id:'IMG003', emoji:'🏆', caption:'Annual Quran Competition',    category:'Events'    },
+    { id:'IMG004', emoji:'🎓', caption:'Graduation Ceremony 2024',    category:'Graduation'},
+    { id:'IMG005', emoji:'👨‍🏫', caption:'Arabic Language Class',       category:'Classes'   },
+    { id:'IMG006', emoji:'🌙', caption:'Eid Celebration',             category:'Events'    },
+    { id:'IMG007', emoji:'🏫', caption:'Library & Study Hall',        category:'Campus'    },
+    { id:'IMG008', emoji:'🤲', caption:'Dua & Assembly',              category:'Events'    },
+    { id:'IMG009', emoji:'📚', caption:'Alim Course Group Photo',     category:'Classes'   },
+    { id:'IMG010', emoji:'🌟', caption:'Prize Distribution Ceremony', category:'Events'    },
+    { id:'IMG011', emoji:'🏡', caption:'Hostel Building',             category:'Campus'    },
+    { id:'IMG012', emoji:'👩‍🎓', caption:'Female Section Graduation',  category:'Graduation'},
+  ];
+
+  const bgColors = ['#e8f5e9','#e3f2fd','#fff3e0','#f3e5f5','#fce4ec','#e0f7fa'];
+
+  function renderGallery(data) {
+    const grid = document.getElementById('galleryGrid');
+    grid.innerHTML = '';
+    data.forEach((img,i) => {
+      grid.innerHTML += `<div class="gallery-item" style="background:${bgColors[i%6]};">
+        ${img.emoji}
+        <div class="g-caption">${img.caption}</div>
+        <div class="g-overlay">
+          <span class="badge badge-${img.category==='Events'?'blue':img.category==='Classes'?'green':img.category==='Graduation'?'purple':'gray'}">${img.category}</span>
+          <button class="btn btn-danger btn-xs" onclick="event.stopPropagation();deleteImage('${img.id}')">🗑️ Delete</button>
+        </div>
+      </div>`;
+    });
+    document.getElementById('galCount').textContent = data.length + ' images';
+  }
+
+  function filterGallery() {
+    const cat = document.getElementById('galFilter').value;
+    renderGallery(cat ? images.filter(i => i.category === cat) : images);
+  }
+
+  function addImage() {
+    const emoji   = document.getElementById('imgEmoji').value.trim() || '🖼️';
+    const caption = document.getElementById('imgCaption').value.trim() || 'Untitled';
+    images.unshift({
+      id: 'IMG' + String(images.length+1).padStart(3,'0'),
+      emoji, caption,
+      category: document.getElementById('imgCategory').value
+    });
+    filterGallery();
+    closeModal('addImageModal');
+    showToast('Image added to gallery!');
+  }
+
+  function deleteImage(id) {
+    confirmDelete('Remove this image from gallery?', () => {
+      images = images.filter(i => i.id !== id);
+      filterGallery();
+      showToast('Image removed.', 'error');
+    });
+  }
+
+  renderGallery(images);
+</script>
+</body>
+</html>

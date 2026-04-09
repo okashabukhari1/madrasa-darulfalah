@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teachers — Admin | Madrasa Dar-ul-Falah</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+<div class="db-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🕌</div><div class="logo-text"><h2>Dar-ul-Falah</h2><span>Admin Panel</span></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+      <a class="nav-item" href="students.html"><span class="nav-icon">🎓</span> Students</a>
+      <a class="nav-item" href="courses.html"><span class="nav-icon">📚</span> Courses</a>
+      <a class="nav-item active" href="teachers.html"><span class="nav-icon">👨‍🏫</span> Teachers</a>
+      <div class="nav-section-label">Management</div>
+      <a class="nav-item" href="admissions.html"><span class="nav-icon">📋</span> Admissions</a>
+      <a class="nav-item" href="gallery.html"><span class="nav-icon">🖼️</span> Gallery</a>
+      <a class="nav-item" href="messages.html"><span class="nav-icon">✉️</span> Messages</a>
+      <a class="nav-item" href="announcements.html"><span class="nav-icon">📢</span> Announcements</a>
+      <div class="nav-section-label">Settings</div>
+      <a class="nav-item" href="../index.html" target="_blank"><span class="nav-icon">🌐</span> View Website</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="s-avatar">👤</div>
+        <div class="s-info"><span id="adminName">Admin</span><small>Administrator</small></div>
+        <button class="btn-logout" onclick="logout()">🚪</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title">Teacher Management</div>
+      <div class="topbar-actions"><button class="topbar-btn">🔔</button><div class="topbar-avatar">👤</div></div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <div><h1>Teachers</h1><div class="breadcrumb">Admin → <span>Teachers</span></div></div>
+        <button class="btn btn-primary" onclick="openModal('addTeacherModal')">➕ Add Teacher</button>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-search"><span>🔍</span><input type="text" id="teacherSearch" placeholder="Search by name or subject…"></div>
+      </div>
+
+      <!-- Teacher cards grid -->
+      <div class="grid-3" id="teacherCardsGrid" style="margin-bottom:24px;"></div>
+
+      <!-- Table view -->
+      <div class="db-card">
+        <div class="db-card-header"><h2>👨‍🏫 Teacher Records</h2></div>
+        <div class="table-wrap">
+          <table id="teachersTable">
+            <thead>
+              <tr><th>Teacher</th><th>Subject</th><th>Qualification</th><th>Experience</th><th>Contact</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="teachersBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ADD TEACHER MODAL -->
+<div class="modal-overlay" id="addTeacherModal">
+  <div class="modal">
+    <div class="modal-header"><h3>➕ Add New Teacher</h3><button class="modal-close" onclick="closeModal('addTeacherModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Full Name</label><input class="form-control" id="tName" placeholder="Hafiz Usman Siddiqui"></div>
+        <div class="form-group"><label>Subject</label><input class="form-control" id="tSubject" placeholder="Hifz & Tajweed"></div>
+      </div>
+      <div class="form-group"><label>Qualification</label><input class="form-control" id="tQual" placeholder="Hafiz-e-Quran, Dars-e-Nizami"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Experience</label><input class="form-control" id="tExp" placeholder="10 Years"></div>
+        <div class="form-group"><label>Phone</label><input class="form-control" id="tPhone" placeholder="0300-1234567"></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" class="form-control" id="tEmail" placeholder="teacher@darulfalah.edu.pk"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addTeacherModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addTeacher()">💾 Save Teacher</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT TEACHER MODAL -->
+<div class="modal-overlay" id="editTeacherModal">
+  <div class="modal">
+    <div class="modal-header"><h3>✏️ Edit Teacher</h3><button class="modal-close" onclick="closeModal('editTeacherModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="editTeacherId">
+      <div class="form-row">
+        <div class="form-group"><label>Full Name</label><input class="form-control" id="editTName"></div>
+        <div class="form-group"><label>Subject</label><input class="form-control" id="editTSubject"></div>
+      </div>
+      <div class="form-group"><label>Qualification</label><input class="form-control" id="editTQual"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Experience</label><input class="form-control" id="editTExp"></div>
+        <div class="form-group"><label>Phone</label><input class="form-control" id="editTPhone"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Email</label><input type="email" class="form-control" id="editTEmail"></div>
+        <div class="form-group">
+          <label>Status</label>
+          <select class="form-control" id="editTStatus"><option>active</option><option>inactive</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('editTeacherModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEditTeacher()">💾 Update Teacher</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+  const user = MdfAuth.requireRole('admin');
+  document.getElementById('adminName').textContent = user.name;
+  function logout() { MdfAuth.logout(); window.location.href = 'login.html'; }
+
+  let teachers = [...MdfData.teachers];
+
+  const avatarEmojis = ['👨‍🏫','👩‍🏫','🧑‍🏫','👨‍💼','👩‍💼','🧕','👳','🧔'];
+
+  function renderTeachers(data) {
+    // Cards
+    const grid = document.getElementById('teacherCardsGrid');
+    grid.innerHTML = '';
+    data.forEach((t,i) => {
+      grid.innerHTML += `<div class="db-card" style="overflow:hidden;">
+        <div style="height:60px;background:linear-gradient(135deg,var(--primary-dark),var(--primary-light));position:relative;">
+          <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:40px;opacity:.1;">✦</div>
+        </div>
+        <div style="padding:0 20px 20px;margin-top:-26px;">
+          <div style="width:52px;height:52px;background:var(--gold);border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:10px;">${avatarEmojis[i%8]}</div>
+          <div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--gray-800);font-weight:600;">${t.name}</div>
+          <div style="font-size:12px;color:var(--primary);margin:3px 0 8px;">${t.subject}</div>
+          <div style="font-size:12px;color:var(--gray-500);">🎓 ${t.qualification}</div>
+          <div style="font-size:12px;color:var(--gray-500);margin-top:4px;">⏱ ${t.exp} Experience</div>
+          <div style="display:flex;gap:8px;margin-top:14px;">
+            <button class="btn btn-outline btn-xs" onclick="editTeacher('${t.id}')">✏️ Edit</button>
+            <button class="btn btn-danger btn-xs" onclick="deleteTeacher('${t.id}')">🗑️</button>
+          </div>
+        </div>
+      </div>`;
+    });
+
+    // Table
+    const tbody = document.getElementById('teachersBody');
+    tbody.innerHTML = '';
+    data.forEach((t,i) => {
+      tbody.innerHTML += `<tr>
+        <td><div class="td-avatar"><div class="avatar-circle">${avatarEmojis[i%8]}</div><div><div class="td-name">${t.name}</div><div class="td-sub">${t.email}</div></div></div></td>
+        <td>${t.subject}</td>
+        <td style="font-size:12px;color:var(--gray-600);max-width:180px;">${t.qualification}</td>
+        <td>${t.exp}</td>
+        <td><div class="td-sub">${t.phone}</div></td>
+        <td><span class="badge badge-${t.status==='active'?'green':'red'}">${t.status}</span></td>
+        <td>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-outline btn-xs" onclick="editTeacher('${t.id}')">✏️ Edit</button>
+            <button class="btn btn-danger btn-xs" onclick="deleteTeacher('${t.id}')">🗑️</button>
+          </div>
+        </td>
+      </tr>`;
+    });
+  }
+
+  document.getElementById('teacherSearch').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    const filtered = teachers.filter(t => t.name.toLowerCase().includes(q) || t.subject.toLowerCase().includes(q));
+    renderTeachers(filtered);
+  });
+
+  function addTeacher() {
+    const name = document.getElementById('tName').value.trim();
+    const subject = document.getElementById('tSubject').value.trim();
+    if (!name || !subject) { showToast('Name and subject required.', 'error'); return; }
+    teachers.unshift({
+      id: 'TCH' + String(teachers.length+1).padStart(3,'0'),
+      name, subject,
+      qualification: document.getElementById('tQual').value,
+      exp: document.getElementById('tExp').value || '0 Years',
+      phone: document.getElementById('tPhone').value,
+      email: document.getElementById('tEmail').value,
+      status: 'active'
+    });
+    renderTeachers(teachers);
+    closeModal('addTeacherModal');
+    showToast('Teacher added!');
+  }
+
+  function editTeacher(id) {
+    const t = teachers.find(t => t.id === id);
+    if (!t) return;
+    document.getElementById('editTeacherId').value = id;
+    document.getElementById('editTName').value    = t.name;
+    document.getElementById('editTSubject').value = t.subject;
+    document.getElementById('editTQual').value    = t.qualification;
+    document.getElementById('editTExp').value     = t.exp;
+    document.getElementById('editTPhone').value   = t.phone;
+    document.getElementById('editTEmail').value   = t.email;
+    document.getElementById('editTStatus').value  = t.status;
+    openModal('editTeacherModal');
+  }
+
+  function saveEditTeacher() {
+    const id = document.getElementById('editTeacherId').value;
+    const idx = teachers.findIndex(t => t.id === id);
+    if (idx < 0) return;
+    teachers[idx] = {
+      ...teachers[idx],
+      name:          document.getElementById('editTName').value,
+      subject:       document.getElementById('editTSubject').value,
+      qualification: document.getElementById('editTQual').value,
+      exp:           document.getElementById('editTExp').value,
+      phone:         document.getElementById('editTPhone').value,
+      email:         document.getElementById('editTEmail').value,
+      status:        document.getElementById('editTStatus').value,
+    };
+    renderTeachers(teachers);
+    closeModal('editTeacherModal');
+    showToast('Teacher updated!');
+  }
+
+  function deleteTeacher(id) {
+    confirmDelete('Delete this teacher profile?', () => {
+      teachers = teachers.filter(t => t.id !== id);
+      renderTeachers(teachers);
+      showToast('Teacher removed.', 'error');
+    });
+  }
+
+  renderTeachers(teachers);
+</script>
+</body>
+</html>

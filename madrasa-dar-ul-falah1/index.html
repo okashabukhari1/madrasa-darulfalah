@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madrasa Dar-ul-Falah — Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loading-screen">
+  <div class="loader-logo">دار الفلاح</div>
+  <div class="loader-text">Madrasa Dar-ul-Falah</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">د</div>
+      <div class="nav-logo-text">
+        <span class="name">Dar-ul-Falah</span>
+        <span class="tagline">Institute of Islamic Education</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="courses.html">Courses</a>
+      <a href="teachers.html">Teachers</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+      <a href="admission.html" class="nav-cta">Apply Now</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="courses.html">Courses</a>
+  <a href="teachers.html">Teachers</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="contact.html">Contact</a>
+  <a href="admission.html">Apply Now</a>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge">Est. 1995 · Lahore, Pakistan</div>
+      <h1 class="hero-title">
+        <span class="arabic">مدرسة دار الفلاح</span>
+        <span class="english">Madrasa Dar-ul-Falah</span>
+      </h1>
+      <p class="hero-subtitle">A beacon of Islamic education — nurturing minds with Quran, knowledge, and character since 1995. Join our family of scholars, seekers, and servants of Allah.</p>
+      <div class="hero-btns">
+        <a href="admission.html" class="btn-primary">Apply for Admission</a>
+        <a href="courses.html" class="btn-secondary">Explore Courses</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="num" data-count="1200" data-suffix="+">0+</span><span class="label">Graduates</span></div>
+        <div class="hero-stat"><span class="num" data-count="28" data-suffix="+">0+</span><span class="label">Years</span></div>
+        <div class="hero-stat"><span class="num" data-count="15">0</span><span class="label">Courses</span></div>
+        <div class="hero-stat"><span class="num" data-count="42">0</span><span class="label">Teachers</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <canvas id="lantern-canvas" width="450" height="450"></canvas>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span><span class="arrow">↓</span>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">Hifz-ul-Quran</span>
+    <span class="marquee-item">Tajweed ul Quran</span>
+    <span class="marquee-item">Alim Course</span>
+    <span class="marquee-item">Arabic Language</span>
+    <span class="marquee-item">Islamic Studies</span>
+    <span class="marquee-item">Fiqh & Hadith</span>
+    <span class="marquee-item">Seerah</span>
+    <span class="marquee-item">Tafseer</span>
+    <span class="marquee-item">Islamic Ethics</span>
+  </div>
+</div>
+
+<!-- Introduction -->
+<section class="section intro-section pattern-bg">
+  <div class="section-inner intro-grid">
+    <div class="intro-img-wrap reveal-left">
+      <div class="intro-img-main">
+        <span class="placeholder-art">🕌</span>
+      </div>
+      <div class="intro-img-badge">
+        <span class="years">28</span>
+        <span class="text">Years of Excellence</span>
+      </div>
+    </div>
+    <div class="intro-text reveal-right">
+      <span class="section-label">About Us</span>
+      <h2>Rooted in <span>Faith</span>, Growing in Knowledge</h2>
+      <div class="divider"></div>
+      <p>Madrasa Dar-ul-Falah has been a cornerstone of Islamic education in Lahore since 1995. Our institute combines traditional Islamic scholarship with modern pedagogical methods, producing well-rounded Muslim scholars who excel in both religious and worldly domains.</p>
+      <p>We believe that seeking knowledge is an obligation upon every Muslim. Our dedicated faculty and comprehensive curriculum ensure every student develops a strong connection with Allah, His book, and the Sunnah of His Prophet ﷺ.</p>
+      <div class="intro-features">
+        <div class="intro-feature stagger-1">
+          <div class="icon">📚</div>
+          <div><div class="label">Quran Memorization</div><div class="sub">Complete Hifz program</div></div>
+        </div>
+        <div class="intro-feature stagger-2">
+          <div class="icon">🎓</div>
+          <div><div class="label">Qualified Faculty</div><div class="sub">42+ experienced scholars</div></div>
+        </div>
+        <div class="intro-feature stagger-3">
+          <div class="icon">🏫</div>
+          <div><div class="label">Modern Facilities</div><div class="sub">Library, labs & more</div></div>
+        </div>
+        <div class="intro-feature stagger-4">
+          <div class="icon">🌙</div>
+          <div><div class="label">Islamic Environment</div><div class="sub">Nurturing & safe</div></div>
+        </div>
+      </div>
+      <a href="about.html" class="btn-primary" style="margin-top:1.5rem">Learn More About Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- Courses Preview -->
+<section class="section" id="courses">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-label">Our Programs</span>
+      <h2 class="section-title">Featured <span>Courses</span></h2>
+      <div class="divider"></div>
+      <p class="section-desc">Comprehensive Islamic education programs designed for every level of learner.</p>
+    </div>
+    <div class="courses-grid">
+      <div class="course-card reveal stagger-1">
+        <div class="course-card-top green">
+          <span class="course-icon">📖</span>
+          <span class="course-card-badge">Most Popular</span>
+        </div>
+        <div class="course-card-body">
+          <h3>Hifz-ul-Quran</h3>
+          <p>Complete memorization of the Holy Quran under expert Huffaz with proper Tajweed and Makharij.</p>
+          <div class="course-meta">
+            <div class="course-meta-item">⏱ <span>3–5 Years</span></div>
+            <div class="course-meta-item">👤 <span>Hafiz Usman</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="course-card reveal stagger-2">
+        <div class="course-card-top teal">
+          <span class="course-icon">🎵</span>
+          <span class="course-card-badge">Beginner Friendly</span>
+        </div>
+        <div class="course-card-body">
+          <h3>Tajweed ul Quran</h3>
+          <p>Master the rules of Quranic recitation — from basic Makharij to advanced Qira'at techniques.</p>
+          <div class="course-meta">
+            <div class="course-meta-item">⏱ <span>1 Year</span></div>
+            <div class="course-meta-item">👤 <span>Qari Abdul Rehman</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="course-card reveal stagger-3">
+        <div class="course-card-top navy">
+          <span class="course-icon">🕌</span>
+          <span class="course-card-badge">Advanced</span>
+        </div>
+        <div class="course-card-body">
+          <h3>Alim Course</h3>
+          <p>Comprehensive 8-year program covering Tafseer, Hadith, Fiqh, and all Islamic Sciences.</p>
+          <div class="course-meta">
+            <div class="course-meta-item">⏱ <span>8 Years</span></div>
+            <div class="course-meta-item">👤 <span>Mufti Abdur Rauf</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="course-card reveal stagger-4">
+        <div class="course-card-top purple">
+          <span class="course-icon">🌙</span>
+          <span class="course-card-badge">Language</span>
+        </div>
+        <div class="course-card-body">
+          <h3>Arabic Language</h3>
+          <p>Learn classical and modern Arabic — essential for understanding the Quran and Islamic texts.</p>
+          <div class="course-meta">
+            <div class="course-meta-item">⏱ <span>2 Years</span></div>
+            <div class="course-meta-item">👤 <span>Ustaz Ibrahim</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="course-card reveal stagger-5">
+        <div class="course-card-top brown">
+          <span class="course-icon">⭐</span>
+          <span class="course-card-badge">All Ages</span>
+        </div>
+        <div class="course-card-body">
+          <h3>Islamic Studies</h3>
+          <p>Foundation course covering Aqeedah, Fiqh, Seerah, and Islamic ethics for all age groups.</p>
+          <div class="course-meta">
+            <div class="course-meta-item">⏱ <span>1 Year</span></div>
+            <div class="course-meta-item">👤 <span>Maulana Saeed</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="course-card reveal stagger-1" style="display:flex;align-items:center;justify-content:center;background:var(--beige);min-height:200px;">
+        <div style="text-align:center;padding:2rem;">
+          <div style="font-size:3rem;margin-bottom:1rem">➕</div>
+          <h3 style="color:var(--primary)">View All 15 Courses</h3>
+          <p style="font-size:.85rem;color:var(--text-medium);margin:.5rem 0 1rem">Discover our complete curriculum</p>
+          <a href="courses.html" class="btn-primary" style="font-size:.85rem;padding:.7rem 1.5rem">Browse All Courses</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teachers Preview -->
+<section class="section teachers-section pattern-bg">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-label">Our Scholars</span>
+      <h2 class="section-title" style="color:var(--white)">Meet Our <span style="color:var(--gold-light)">Teachers</span></h2>
+      <div class="divider"></div>
+      <p class="section-desc">Dedicated scholars and educators committed to excellence in Islamic teaching.</p>
+    </div>
+    <div class="teachers-grid">
+      <div class="teacher-card reveal stagger-1">
+        <div class="teacher-avatar">👨‍🏫</div>
+        <div class="teacher-name">Hafiz Usman Siddiqui</div>
+        <div class="teacher-role">Head of Hifz Department</div>
+        <div class="teacher-qual">Hafiz-e-Quran · 20 Years Experience · Graduate of Darul Uloom Karachi</div>
+      </div>
+      <div class="teacher-card reveal stagger-2">
+        <div class="teacher-avatar">🧕</div>
+        <div class="teacher-name">Ustaza Zainab Ansari</div>
+        <div class="teacher-role">Tajweed Specialist</div>
+        <div class="teacher-qual">Mumtaz ul Mutallimin · 15 Years · Specialized in Qira'at</div>
+      </div>
+      <div class="teacher-card reveal stagger-3">
+        <div class="teacher-avatar">👨‍🎓</div>
+        <div class="teacher-name">Mufti Abdur Rauf</div>
+        <div class="teacher-role">Head of Alim Course</div>
+        <div class="teacher-qual">Mufti · PhD Islamic Sciences · 25 Years Experience</div>
+      </div>
+      <div class="teacher-card reveal stagger-4">
+        <div class="teacher-avatar">🧔</div>
+        <div class="teacher-name">Ustaz Ibrahim Al-Misri</div>
+        <div class="teacher-role">Arabic Language Teacher</div>
+        <div class="teacher-qual">MA Arabic Literature · Native Speaker · 12 Years</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem">
+      <a href="teachers.html" class="btn-primary">View All Teachers</a>
+    </div>
+  </div>
+</section>
+
+<!-- Announcements & Events -->
+<section class="section pattern-bg">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-label">Stay Updated</span>
+      <h2 class="section-title">Announcements & <span>Events</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="announce-grid">
+      <div class="announce-list">
+        <div class="announce-item reveal stagger-1">
+          <div class="announce-date"><div class="day">15</div><div class="month">Mar</div></div>
+          <div class="announce-content">
+            <h4>Annual Quran Recitation Competition 2025</h4>
+            <p>Students from all classes are invited to participate in our prestigious annual Quran recitation competition. Prizes will be awarded in multiple categories.</p>
+            <span class="announce-tag">Competition</span>
+          </div>
+        </div>
+        <div class="announce-item reveal stagger-2">
+          <div class="announce-date"><div class="day">22</div><div class="month">Mar</div></div>
+          <div class="announce-content">
+            <h4>New Batch Admissions Open — April 2025</h4>
+            <p>Applications are now open for the Spring 2025 intake. Limited seats available for Hifz and Alim programs. Apply early to secure your place.</p>
+            <span class="announce-tag">Admissions</span>
+          </div>
+        </div>
+        <div class="announce-item reveal stagger-3">
+          <div class="announce-date"><div class="day">01</div><div class="month">Apr</div></div>
+          <div class="announce-content">
+            <h4>Monthly Parent-Teacher Meeting</h4>
+            <p>All parents are invited to attend the monthly meeting to discuss student progress and upcoming curriculum changes for the new academic year.</p>
+            <span class="announce-tag">Meeting</span>
+          </div>
+        </div>
+        <div class="announce-item reveal stagger-4">
+          <div class="announce-date"><div class="day">10</div><div class="month">Apr</div></div>
+          <div class="announce-content">
+            <h4>Graduation Ceremony — Class of 2025</h4>
+            <p>We are proud to celebrate the graduation of 87 students completing their Hifz and Alim courses. Join us for this blessed occasion.</p>
+            <span class="announce-tag">Ceremony</span>
+          </div>
+        </div>
+      </div>
+      <div class="events-sidebar reveal-right">
+        <h3>📅 Upcoming Events</h3>
+        <div class="event-item">
+          <div class="event-time">Mar 20, 2025 · 9:00 AM</div>
+          <div class="event-name">Isra Mi'raj Celebration</div>
+          <div class="event-loc">📍 Main Hall</div>
+        </div>
+        <div class="event-item">
+          <div class="event-time">Mar 25, 2025 · 2:00 PM</div>
+          <div class="event-name">Tajweed Workshop</div>
+          <div class="event-loc">📍 Lecture Room 3</div>
+        </div>
+        <div class="event-item">
+          <div class="event-time">Apr 05, 2025 · 10:00 AM</div>
+          <div class="event-name">Arabic Calligraphy Class</div>
+          <div class="event-loc">📍 Art Studio</div>
+        </div>
+        <div class="event-item">
+          <div class="event-time">Apr 12, 2025 · 3:00 PM</div>
+          <div class="event-name">Islamic History Quiz</div>
+          <div class="event-loc">📍 Auditorium</div>
+        </div>
+        <div class="event-item">
+          <div class="event-time">Apr 20, 2025 · All Day</div>
+          <div class="event-name">Annual Sports Day</div>
+          <div class="event-loc">📍 School Grounds</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section testimonials-section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-label">Student Stories</span>
+      <h2 class="section-title">What Our <span>Community</span> Says</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal stagger-1">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">Alhamdulillah, my son completed his Hifz at Dar-ul-Falah in just 3 years. The teachers are incredibly dedicated and the environment is exactly what every Muslim parent dreams of for their child.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">A</div>
+          <div><div class="testimonial-name">Ahmad Bilal</div><div class="testimonial-role">Parent of Hafiz Student</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal stagger-2">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">The Alim course here gave me not just knowledge but a complete transformation. Mufti Abdur Rauf's classes are life-changing. I'm now teaching at my local mosque — all thanks to this amazing institution.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">M</div>
+          <div><div class="testimonial-name">Muhammad Umar</div><div class="testimonial-role">Graduate, Class of 2020</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal stagger-3">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">As a woman seeking Islamic education, I felt completely welcomed and supported. The sisters' section is exceptional. The Arabic program helped me read the Quran with real understanding.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">F</div>
+          <div><div class="testimonial-name">Fatima Noor</div><div class="testimonial-role">Arabic Language Student</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <div class="cta-verse">اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ</div>
+    <div class="cta-verse-ref">Quran 96:1 — "Read in the name of your Lord who created"</div>
+    <h2 class="cta-title">Begin Your Journey of Sacred Knowledge</h2>
+    <p class="cta-text">Seats are limited for the upcoming batch. Join hundreds of students who have transformed their lives through Islamic education at Dar-ul-Falah.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <a href="admission.html" class="btn-primary">Apply for Admission</a>
+      <a href="contact.html" class="btn-secondary">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo-wrap">
+        <div class="footer-logo-icon">د</div>
+        <div>
+          <div class="footer-brand-name">Dar-ul-Falah</div>
+          <div class="footer-brand-tag">Islamic Institute</div>
+        </div>
+      </div>
+      <p class="footer-about">Madrasa Dar-ul-Falah has been nurturing Islamic scholars and producing Huffaz since 1995. We are committed to excellence in Islamic education.</p>
+      <div class="footer-socials">
+        <a href="#" class="footer-social">f</a>
+        <a href="#" class="footer-social">t</a>
+        <a href="#" class="footer-social">in</a>
+        <a href="#" class="footer-social">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="courses.html">Courses</a>
+        <a href="teachers.html">Teachers</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Programs</h4>
+      <div class="footer-links">
+        <a href="courses.html">Hifz-ul-Quran</a>
+        <a href="courses.html">Tajweed</a>
+        <a href="courses.html">Alim Course</a>
+        <a href="courses.html">Arabic Language</a>
+        <a href="courses.html">Islamic Studies</a>
+        <a href="admission.html">Admissions</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Contact Info</h4>
+      <div class="footer-contact-item"><span class="ico">📍</span><span>Street 14, Model Town, Lahore, Punjab, Pakistan</span></div>
+      <div class="footer-contact-item"><span class="ico">📞</span><span>+92 42 3571 0000</span></div>
+      <div class="footer-contact-item"><span class="ico">✉️</span><span>info@darulfalah.edu.pk</span></div>
+      <div class="footer-contact-item"><span class="ico">🕐</span><span>Mon–Sat: 7:00 AM – 6:00 PM</span></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Madrasa Dar-ul-Falah. All rights reserved.</span>
+    <span style="color:rgba(255,255,255,0.25)">|</span>
+    <div style="display:flex;gap:1rem">
+      <a href="admin/dashboard.html" style="color:rgba(255,255,255,0.3);font-size:.8rem">Admin</a>
+      <a href="student/login.html" style="color:rgba(255,255,255,0.3);font-size:.8rem">Student Portal</a>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" title="Back to top">↑</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/script.js"></script>
+<script src="js/three-animation.js"></script>
+</body>
+</html>
