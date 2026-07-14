@@ -64,6 +64,53 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
 });
 
+// Fees & Financial Management (Admin only, role:admin required)
+Route::middleware(['auth', 'role:admin'])->prefix('admin/fees')->name('admin.fees.')->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\FeeDashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/lookup-student/{studentId}', [\App\Http\Controllers\Admin\FeeController::class, 'lookupStudent'])->name('lookup-student');
+
+    Route::get('/', [\App\Http\Controllers\Admin\FeeController::class, 'index'])->name('index');
+    Route::get('/create', [\App\Http\Controllers\Admin\FeeController::class, 'create'])->name('create');
+    Route::post('/', [\App\Http\Controllers\Admin\FeeController::class, 'store'])->name('store');
+    Route::get('/{fee}/edit', [\App\Http\Controllers\Admin\FeeController::class, 'edit'])->name('edit');
+    Route::put('/{fee}', [\App\Http\Controllers\Admin\FeeController::class, 'update'])->name('update');
+    Route::get('/{fee}', [\App\Http\Controllers\Admin\FeeController::class, 'show'])->name('show');
+    Route::delete('/{fee}', [\App\Http\Controllers\Admin\FeeController::class, 'destroy'])->name('destroy');
+
+    Route::get('/receipt/{fee}', [\App\Http\Controllers\Admin\FeeController::class, 'receipt'])->name('receipt');
+
+    // Exports
+    Route::get('/export/csv', [\App\Http\Controllers\Admin\FeeController::class, 'exportCsv'])->name('export.csv');
+    Route::get('/export/pdf', [\App\Http\Controllers\Admin\FeeController::class, 'exportPdf'])->name('export.pdf');
+
+    // Fee history per student
+    Route::get('/student/{studentId}', [\App\Http\Controllers\Admin\FeeController::class, 'studentHistory'])->name('student.history');
+
+    // Fee Plans (for monthly auto dues)
+    Route::get('/plans', [\App\Http\Controllers\Admin\FeePlanController::class, 'index'])->name('plans.index');
+    Route::get('/plans/create', [\App\Http\Controllers\Admin\FeePlanController::class, 'create'])->name('plans.create');
+    Route::post('/plans', [\App\Http\Controllers\Admin\FeePlanController::class, 'store'])->name('plans.store');
+    Route::get('/plans/{plan}/edit', [\App\Http\Controllers\Admin\FeePlanController::class, 'edit'])->name('plans.edit');
+    Route::put('/plans/{plan}', [\App\Http\Controllers\Admin\FeePlanController::class, 'update'])->name('plans.update');
+    Route::delete('/plans/{plan}', [\App\Http\Controllers\Admin\FeePlanController::class, 'destroy'])->name('plans.destroy');
+});
+
+// Teacher Salaries (Admin only)
+Route::middleware(['auth', 'role:admin'])->prefix('admin/salaries')->name('admin.salaries.')->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\TeacherSalaryController::class, 'dashboard'])->name('dashboard');
+    Route::get('/profiles', [\App\Http\Controllers\Admin\TeacherSalaryController::class, 'profiles'])->name('profiles');
+    Route::post('/profiles/{teacher}', [\App\Http\Controllers\Admin\TeacherSalaryController::class, 'saveProfile'])->name('profiles.save');
+
+    Route::get('/advances', [\App\Http\Controllers\Admin\TeacherSalaryController::class, 'advances'])->name('advances');
+    Route::post('/advances', [\App\Http\Controllers\Admin\TeacherSalaryController::class, 'storeAdvance'])->name('advances.store');
+
+    Route::get('/payouts', [\App\Http\Controllers\Admin\TeacherSalaryController::class, 'payouts'])->name('payouts');
+    Route::post('/payouts/generate', [\App\Http\Controllers\Admin\TeacherSalaryController::class, 'generatePayout'])->name('payouts.generate');
+    Route::post('/payouts/{payout}/paid', [\App\Http\Controllers\Admin\TeacherSalaryController::class, 'markPaid'])->name('payouts.paid');
+    Route::get('/payouts/{payout}/slip', [\App\Http\Controllers\Admin\TeacherSalaryController::class, 'slipPdf'])->name('payouts.slip');
+});
+
 // Student Routes
 Route::middleware(['auth', 'student'])->prefix('student')->name('student.')->group(function () {
     Route::get('/dashboard', [StudentDashboard::class, 'index'])->name('dashboard');

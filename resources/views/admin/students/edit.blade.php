@@ -71,7 +71,7 @@
                         <option value="">Unassigned</option>
                         @foreach($teachers as $teacher)
                             <option value="{{ $teacher->id }}" {{ (old('teacher_id', $student->teacher_id) == $teacher->id) ? 'selected' : '' }}>
-                                {{ $teacher->name ?? 'Scholar' }} {{ $teacher->urdu_name ? '(' . $teacher->urdu_name . ')' : '' }}
+                                {{ $teacher->teacher_id ?? '—' }} — {{ $teacher->name ?? 'Scholar' }} {{ $teacher->urdu_name ? '(' . $teacher->urdu_name . ')' : '' }}
                             </option>
                         @endforeach
                     </select>

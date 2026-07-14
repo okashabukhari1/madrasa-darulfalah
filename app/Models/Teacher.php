@@ -11,7 +11,7 @@ class Teacher extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'name', 'urdu_name', 'slug', 'designation', 'specialization', 'qualification', 'experience', 'email', 'phone',
+        'teacher_id', 'user_id', 'name', 'urdu_name', 'slug', 'designation', 'specialization', 'qualification', 'experience', 'email', 'phone',
         'photo', 'bio', 'status', 'order',
     ];
 
@@ -24,6 +24,9 @@ class Teacher extends Model
             if (empty($teacher->slug)) {
                 $teacher->slug = Str::slug($teacher->name ?? $teacher->urdu_name ?? 'teacher-' . uniqid());
             }
+            if (empty($teacher->teacher_id)) {
+                $teacher->teacher_id = self::generateTeacherId();
+            }
         });
     }
 
@@ -33,6 +36,9 @@ class Teacher extends Model
     public function assignedStudents() { return $this->hasMany(Student::class, 'teacher_id'); }
     public function progressLogs() { return $this->hasMany(ProgressLog::class); }
     public function exams() { return $this->hasMany(Exam::class); }
+    public function salaryProfile() { return $this->hasOne(TeacherSalaryProfile::class); }
+    public function salaryAdvances() { return $this->hasMany(TeacherSalaryAdvance::class); }
+    public function salaryPayouts() { return $this->hasMany(TeacherSalaryPayout::class); }
 
     public function getRouteKeyName(): string { return 'slug'; }
 
@@ -46,5 +52,12 @@ class Teacher extends Model
         }
         $name = urlencode($this->name ?? $this->urdu_name ?? 'Teacher');
         return "https://ui-avatars.com/api/?name={$name}&color=2d6a4f&background=d4af37&size=128";
+    }
+
+    public static function generateTeacherId(): string
+    {
+        $last = self::whereNotNull('teacher_id')->latest('id')->first();
+        $nextNum = $last ? (intval(substr($last->teacher_id, 2)) + 1) : 1;
+        return 'TH' . str_pad((string) $nextNum, 7, '0', STR_PAD_LEFT);
     }
 }

@@ -21,6 +21,7 @@
                 <tr>
                     <th>Photo</th>
                     <th>Name</th>
+                    <th>Teacher ID</th>
                     <th>Designation</th>
                     <th>Specialization</th>
                     <th>Contact</th>
@@ -48,6 +49,9 @@
                             @endif
                         </div>
                         <small style="color:var(--text-light);">{{ $teacher->email }}</small>
+                    </td>
+                    <td>
+                        <span class="badge badge-blue">{{ $teacher->teacher_id ?? '—' }}</span>
                     </td>
                     <td>{{ $teacher->designation }}</td>
                     <td><span class="badge badge-gold">{{ $teacher->specialization }}</span></td>

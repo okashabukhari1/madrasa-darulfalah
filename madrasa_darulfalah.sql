@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2026 at 09:28 PM
+-- Generation Time: Jul 14, 2026 at 09:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,6 +39,19 @@ CREATE TABLE `activity_logs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `activity_logs`
+--
+
+INSERT INTO `activity_logs` (`id`, `user_id`, `action`, `model_type`, `model_id`, `description`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES
+(1, 1, 'fee.create', 'App\\Models\\Fee', 1, 'Fee created: MDF-2026-0001 (Khalis)', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', '2026-04-25 10:55:29', '2026-04-25 10:55:29'),
+(2, 1, 'fee.create', 'App\\Models\\Fee', 2, 'Fee created: MDF-2026-0002 (Khalis)', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', '2026-04-25 10:55:30', '2026-04-25 10:55:30'),
+(3, 1, 'fee.update', 'App\\Models\\Fee', 2, 'Fee updated: MDF-2026-0002', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', '2026-04-25 11:07:30', '2026-04-25 11:07:30'),
+(4, 1, 'fee.create', 'App\\Models\\Fee', 3, 'Fee created: MDF-2026-0003 (Sadqa)', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', '2026-04-25 11:12:58', '2026-04-25 11:12:58'),
+(5, 1, 'fee.export_pdf', NULL, NULL, 'Fees exported to PDF', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', '2026-04-25 11:13:10', '2026-04-25 11:13:10'),
+(6, 1, 'fee.export_pdf', NULL, NULL, 'Fees exported to PDF', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', '2026-04-25 11:23:39', '2026-04-25 11:23:39'),
+(7, 1, 'salary.advance', 'App\\Models\\TeacherSalaryAdvance', 1, 'Advance recorded for teacher_id=4', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', '2026-04-25 12:08:06', '2026-04-25 12:08:06');
 
 -- --------------------------------------------------------
 
@@ -182,12 +195,9 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('madrasa-dar-ul-falah-cache-admin@example.com|127.0.0.1', 'i:1;', 1774085866),
-('madrasa-dar-ul-falah-cache-admin@example.com|127.0.0.1:timer', 'i:1774085866;', 1774085866),
-('madrasa-dar-ul-falah-cache-admin@gmail.com|127.0.0.1', 'i:1;', 1774643595),
-('madrasa-dar-ul-falah-cache-admin@gmail.com|127.0.0.1:timer', 'i:1774643595;', 1774643595),
-('madrasa-dar-ul-falah-cache-okashagfx@gmail.com|127.0.0.1', 'i:1;', 1774642955),
-('madrasa-dar-ul-falah-cache-okashagfx@gmail.com|127.0.0.1:timer', 'i:1774642955;', 1774642955);
+('madrasa-dar-ul-falah-cache-abdulrehman@madrasa.com|127.0.0.1:timer', 'i:1784056884;', 1784056884),
+('madrasa-dar-ul-falah-cache-teacher@madrasa.com|127.0.0.1', 'i:2;', 1784056809),
+('madrasa-dar-ul-falah-cache-teacher@madrasa.com|127.0.0.1:timer', 'i:1784056809;', 1784056809);
 
 -- --------------------------------------------------------
 
@@ -299,7 +309,7 @@ INSERT INTO `courses` (`id`, `title`, `urdu_title`, `slug`, `category_id`, `desc
 (3, 'Hifz-ul-Quran', NULL, 'hifz-ul-quran', 1, 'This course is designed for students who wish to memorize the complete Holy Quran (Hifz) under the guidance of qualified teachers. The program focuses on strong memorization, daily revision (Sabqi & Manzil), and accuracy with Tajweed. Students are trained with a disciplined routine to ensure long-term retention of the Quran.', NULL, 'Complete memorization of the Quran (30 Paras)\r\n\r\nDaily Sabaq (new lesson)\r\n\r\nSabqi (recent revision)\r\n\r\nManzil (old revision)\r\n\r\nStrong Tajweed application', NULL, '2 – 4 Years', 0.00, 4, 'intermediate', 1, 0, 0, NULL, NULL, '2026-03-20 13:25:34', '2026-03-20 14:12:11'),
 (4, 'Nazra Quran', NULL, 'nazra-quran', 2, 'Nazra course focuses on correct and fluent recitation of the Holy Quran. Students learn how to read the Quran properly with Tajweed rules, improving pronunciation and fluency.', NULL, 'Fluent Quran reading\r\nBasic Tajweed rules\r\nCorrect pronunciation (Makharij)\r\nReading the complete Quran', NULL, '6 – 12 Months', 0.00, 7, 'beginner', 1, 0, 0, NULL, NULL, '2026-03-21 04:16:08', '2026-03-21 06:51:27'),
 (5, 'Noorani Qaida', NULL, 'noorani-qaida', 4, 'This course is for beginners who are starting their journey in Quran learning. It teaches the Arabic alphabet, pronunciation, and basic reading skills required to read the Quran.', NULL, 'Arabic letters and sounds\r\nJoining letters\r\nBasic pronunciation (Makharij)\r\nReading simple words', NULL, '2 – 4 Months', 0.00, 4, 'beginner', 1, 0, 0, NULL, NULL, '2026-03-21 04:17:37', '2026-03-21 04:17:37'),
-(6, 'Tajweed Course', NULL, 'tajweed-course', 1, 'This course focuses on teaching the rules of Tajweed in detail, ensuring that students recite the Quran with proper pronunciation and beauty as required in Islamic tradition.', NULL, 'Rules of Tajweed\r\nMakharij (points of articulation)\r\nSifaat (qualities of letters)\r\nPractical recitation improvement', NULL, '3 – 6 Months', 0.00, 5, 'advanced', 1, 0, 0, NULL, NULL, '2026-03-21 04:19:24', '2026-03-21 06:50:58'),
+(6, 'Tajweed Course', NULL, 'tajweed-course', 1, 'This course focuses on teaching the rules of Tajweed in detail, ensuring that students recite the Quran with proper pronunciation and beauty as required in Islamic tradition.', NULL, 'Rules of Tajweed\r\nMakharij (points of articulation)\r\nSifaat (qualities of letters)\r\nPractical recitation improvement', NULL, '3 – 6 Months', 2000.00, 5, 'advanced', 1, 0, 0, NULL, NULL, '2026-03-21 04:19:24', '2026-07-14 14:15:08'),
 (7, 'Basic Islamic Studies', NULL, 'basic-islamic-studies', 2, 'This course provides students with essential Islamic knowledge, helping them understand their faith, daily practices, and moral values.', NULL, 'Basic Aqeedah (beliefs)\r\nDaily duas and prayers\r\nIslamic manners (Akhlaq)\r\nSunnah practices', NULL, '3 – 6 Months', 0.00, 9, 'beginner', 1, 0, 0, NULL, NULL, '2026-03-21 04:22:05', '2026-03-21 06:50:29');
 
 -- --------------------------------------------------------
@@ -378,6 +388,13 @@ CREATE TABLE `exams` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `exams`
+--
+
+INSERT INTO `exams` (`id`, `student_id`, `teacher_id`, `program`, `exam_type`, `date`, `para`, `surah`, `ayah_from`, `ayah_to`, `mistakes`, `fluency`, `tajweed`, `grade`, `remarks`, `created_at`, `updated_at`) VALUES
+(1, 7, 4, 'Hifz', 'Weekly', '2026-07-14', NULL, NULL, NULL, NULL, 3, 4, 3, 'Good', NULL, '2026-07-14 14:27:37', '2026-07-14 14:27:37');
+
 -- --------------------------------------------------------
 
 --
@@ -392,6 +409,56 @@ CREATE TABLE `failed_jobs` (
   `payload` longtext NOT NULL,
   `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fees`
+--
+
+CREATE TABLE `fees` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` varchar(9) NOT NULL,
+  `teacher_id` varchar(9) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `amount` decimal(12,2) NOT NULL,
+  `payment_type` enum('Khalis','Zakat','Hadiya','Sadqa','Fitra','Fidya','Others') NOT NULL,
+  `status` enum('paid','pending') NOT NULL DEFAULT 'paid',
+  `check_no` varchar(255) DEFAULT NULL,
+  `bank` varchar(255) DEFAULT NULL,
+  `payment_date` date NOT NULL,
+  `reference_id` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `fees`
+--
+
+INSERT INTO `fees` (`id`, `student_id`, `teacher_id`, `name`, `phone`, `amount`, `payment_type`, `status`, `check_no`, `bank`, `payment_date`, `reference_id`, `created_at`, `updated_at`) VALUES
+(1, 'STD000001', 'TH0000001', 'Ahmed Raza', '+92 300 9876543', 1000.00, 'Khalis', 'paid', NULL, NULL, '2026-04-25', 'MDF-2026-0001', '2026-04-25 10:55:29', '2026-04-25 10:55:29'),
+(2, 'STD000002', 'TH0000001', 'Ahmed Raza', '+92 300 9876543', 1000.00, 'Hadiya', 'paid', NULL, NULL, '2026-04-25', 'MDF-2026-0002', '2026-04-25 10:55:30', '2026-04-25 11:07:30'),
+(3, 'STD000004', 'TH0000004', 'Ahmed Raza', '+92 300 9876543', 1500.00, 'Sadqa', 'paid', NULL, NULL, '2026-04-25', 'MDF-2026-0003', '2026-04-25 11:12:56', '2026-04-25 11:12:56');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fee_plans`
+--
+
+CREATE TABLE `fee_plans` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `program` enum('hifz','nazra','qaida') DEFAULT NULL,
+  `class` varchar(255) DEFAULT NULL,
+  `course_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `monthly_amount` decimal(12,2) NOT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -557,7 +624,15 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (30, '2026_03_21_000002_make_teacher_name_nullable', 13),
 (31, '2026_03_28_000000_add_name_to_students_table', 14),
 (32, '2026_03_27_204525_create_book_categories_table', 15),
-(33, '2026_03_27_204556_add_book_category_id_to_books_table', 15);
+(34, '2026_03_27_204556_add_book_category_id_to_books_table', 16),
+(35, '2026_04_25_000001_add_teacher_id_to_teachers_table', 17),
+(36, '2026_04_25_000002_create_fees_table', 17),
+(37, '2026_04_25_000003_update_teacher_id_format_to_7_digits', 18),
+(38, '2026_04_25_000004_create_fee_plans_table', 19),
+(39, '2026_04_25_000005_create_student_fee_dues_table', 19),
+(40, '2026_04_25_000006_create_teacher_salary_profiles_table', 19),
+(41, '2026_04_25_000007_create_teacher_salary_advances_table', 19),
+(42, '2026_04_25_000008_create_teacher_salary_payouts_table', 19);
 
 -- --------------------------------------------------------
 
@@ -644,9 +719,9 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('2DBwfaDASQyIILaxXitbYW7CehOtXHr6phNx153w', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiWXNXTXZCZVhRSUhJZEFWYjJ6cHJtMGRLRzlnNWxOMjAweUNPbkpCQSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9sb2dpbiI7czo1OiJyb3V0ZSI7czo1OiJsb2dpbiI7fXM6MzoidXJsIjthOjE6e3M6ODoiaW50ZW5kZWQiO3M6MzM6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hZG1pbi9ib29rcyI7fX0=', 1774644772),
-('BqCsjYngdC3dqawIFAI0huTiLtlirVHTlEiyjuP9', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiQUFXaHA4UjRLY1VpcnhEUnoxaURuWk5hc2R1ZllwbHZxMkU0cWlRZiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6MTU6ImFkbWluLmRhc2hib2FyZCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1774646174),
-('snxWwjfzJMonbT8KTC1fTjYkt2LqtbAXlzZ4NS6o', 18, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiTkdDNTNGUXU0U1o4aEdHSEVqcWtpUmNmZEMwRks1bHNTazhEd3QxNiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC90ZWFjaGVyL2V4YW1zIjtzOjU6InJvdXRlIjtzOjE5OiJ0ZWFjaGVyLmV4YW1zLmluZGV4Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTg7fQ==', 1774643042);
+('riKRxg74CcaVvHy9rTvCsmRDI8rJpykJ0A9kYxJR', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoibDVCcHpYcXNQd09ZbjU0RWRSbzg1SGFyTllvVDJNdlpHb09yWWdPTCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo0OiJob21lIjt9fQ==', 1784057393),
+('XFueovgKfE40ZZ7aXNG0L8o1fus2pWgiSzGDWnSF', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.126.0 Chrome/148.0.7778.97 Electron/42.2.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoid2FvM1kxTWdnMFVpaWJ3U3JHamRROW1zcUdjeHV6Um5Pa2FsZEp4YiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo0OiJob21lIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1784056331),
+('ZRJVpOV5Dz3QnZtygPDrixAytbY29lCnVlEHNYvk', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiM0dQTjZ0dUxJb2VTUHdPdWlZbmtRYzZYeG1BcUs3UzZtWVRxRWpYbCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hZG1pbi9zdHVkZW50cyI7czo1OiJyb3V0ZSI7czoyMDoiYWRtaW4uc3R1ZGVudHMuaW5kZXgiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1784057289);
 
 -- --------------------------------------------------------
 
@@ -687,9 +762,30 @@ CREATE TABLE `students` (
 INSERT INTO `students` (`id`, `student_id`, `name`, `program`, `user_id`, `urdu_name`, `category_id`, `father_name`, `guardian_name`, `guardian_phone`, `cnic`, `dob`, `gender`, `address`, `city`, `class`, `batch`, `enrollment_date`, `status`, `notes`, `created_at`, `updated_at`, `teacher_id`) VALUES
 (5, 'STD000001', 'Ahmed Raza', 'hifz', 19, NULL, NULL, NULL, 'Muhammad Raza', '+92 300 9876543', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL, '2026-03-27 14:39:11', '2026-03-27 14:39:11', 5),
 (6, 'STD000002', 'Bilal Khan', 'nazra', 20, NULL, NULL, NULL, 'Imran Khan', '+92 301 8765432', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL, '2026-03-27 14:50:54', '2026-03-27 15:23:15', 9),
-(7, 'STD000003', 'عثمان علی', 'qaida', 21, 'عثمان علی', NULL, NULL, 'Ali Ahmed', '+92 302 7654321', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL, '2026-03-27 15:08:28', '2026-03-27 15:12:40', 8),
+(7, 'STD000003', 'عثمان علی', 'qaida', 21, 'عثمان علی', NULL, NULL, 'Ali Ahmed', '+92 302 7654321', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL, '2026-03-27 15:08:28', '2026-07-14 14:26:07', 4),
 (8, 'STD000004', 'Hassan Mehmood', 'hifz', 22, 'حسن محمود', NULL, NULL, 'Mehmood Ahmed', '+92 303 6543210', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL, '2026-03-27 15:10:28', '2026-03-27 15:10:28', 8),
 (9, 'STD000005', 'Okasha Bukhari', 'hifz', 23, 'عکاشہ بخاری', NULL, NULL, 'Shahbaz Bukhari', '03112333657', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL, '2026-03-27 15:11:50', '2026-03-27 15:11:50', 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_fee_dues`
+--
+
+CREATE TABLE `student_fee_dues` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` bigint(20) UNSIGNED NOT NULL,
+  `fee_plan_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `year` smallint(5) UNSIGNED NOT NULL,
+  `month` tinyint(3) UNSIGNED NOT NULL,
+  `amount` decimal(12,2) NOT NULL,
+  `status` enum('due','paid','waived') NOT NULL DEFAULT 'due',
+  `due_date` date DEFAULT NULL,
+  `generated_at` timestamp NULL DEFAULT NULL,
+  `fee_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -699,6 +795,7 @@ INSERT INTO `students` (`id`, `student_id`, `name`, `program`, `user_id`, `urdu_
 
 CREATE TABLE `teachers` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `teacher_id` varchar(9) DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `urdu_name` varchar(255) DEFAULT NULL,
@@ -721,12 +818,81 @@ CREATE TABLE `teachers` (
 -- Dumping data for table `teachers`
 --
 
-INSERT INTO `teachers` (`id`, `user_id`, `name`, `urdu_name`, `slug`, `designation`, `specialization`, `qualification`, `experience`, `email`, `phone`, `photo`, `bio`, `status`, `order`, `created_at`, `updated_at`) VALUES
-(4, 9, 'Ahmad Raza', NULL, 'ahmad-raza', 'Head of Hifz', 'Tajweed', NULL, NULL, 'okashagfx@gmail.com', '03152294541', 'teachers/UK41rToZZoJrGWWrSat7fgh6kFEPZMjROnzxRieA.png', 'Great Teacher of Tajweed', 1, 0, '2026-03-19 12:21:12', '2026-03-19 12:21:12'),
-(5, 14, 'Maulana Abdul Rehman', 'مولانا عبد الرحمن', 'maulana-abdul-rehman', 'Head of Hifz', 'Hifz, Tajweed', 'Alim-e-Deen, Hafiz-ul-Quran', '10', 'abdulrehman@madrasa.com', '+92 300 1234567', NULL, 'An experienced Hifz teacher with over 10 years of dedication in Quran memorization training, focusing on strong retention and disciplined revision (Sabqi & Manzil).', 1, 0, '2026-03-21 04:54:55', '2026-03-21 04:54:55'),
-(7, 16, NULL, 'قاری محمد عثمان', 'kary-mhmd-aathman', 'تجوید کے ماہر', 'تجوید، ناظرہ', 'مستند تجوید استاد', '8', 'usman.qari@madrasa.com', '+92 301 2345678', NULL, 'تلفظ (مخارج) پر مضبوط حکم کے ساتھ تجوید میں ماہر، طلباء کو روانی اور صحیح قرآن کی تلاوت حاصل کرنے میں مدد کرتا ہے۔', 1, 0, '2026-03-21 05:45:30', '2026-03-21 05:45:30'),
-(8, 17, 'Hafiz Bilal Ahmed', NULL, 'hafiz-bilal-ahmed', 'Hifz Instructor', 'Hifz, Revision (Manzil)', 'Hafiz-ul-Quran', '6', 'bilal.hafiz@madrasa.com', '+92 302 3456789', NULL, 'Focused on strengthening memorization through daily revision techniques and improving long-term retention of Quran.', 1, 0, '2026-03-21 05:53:11', '2026-03-21 05:53:11'),
-(9, 18, 'Mufti Saad Ahmed', NULL, 'mufti-saad-ahmed', 'Islamic Studies Head', 'Fiqh, Islamic Studies', 'Mufti, Alim-e-Deen', '12', 'saad.mufti@madrasa.com', '+92 304 5678901', NULL, 'Highly qualified Islamic scholar providing guidance in Fiqh and daily Islamic practices with deep understanding of Shariah.', 1, 0, '2026-03-21 05:56:16', '2026-03-21 05:56:16');
+INSERT INTO `teachers` (`id`, `teacher_id`, `user_id`, `name`, `urdu_name`, `slug`, `designation`, `specialization`, `qualification`, `experience`, `email`, `phone`, `photo`, `bio`, `status`, `order`, `created_at`, `updated_at`) VALUES
+(4, 'TH0000001', 9, 'Ahmad Raza', NULL, 'ahmad-raza', 'Head of Hifz', 'Tajweed', NULL, NULL, 'okashagfx@gmail.com', '03152294541', 'teachers/OTZqkZlsRt6FpdrFMAuDHMxUxTMh35BmGasOjfn5.jpg', 'Great Teacher of Tajweed', 1, 0, '2026-03-19 12:21:12', '2026-07-14 14:23:37'),
+(5, 'TH0000002', 14, 'Maulana Abdul Rehman', 'مولانا عبد الرحمن', 'maulana-abdul-rehman', 'Head of Hifz', 'Hifz, Tajweed', 'Alim-e-Deen, Hafiz-ul-Quran', '10', 'abdulrehman@madrasa.com', '+92 300 1234567', NULL, 'An experienced Hifz teacher with over 10 years of dedication in Quran memorization training, focusing on strong retention and disciplined revision (Sabqi & Manzil).', 1, 0, '2026-03-21 04:54:55', '2026-04-25 10:50:04'),
+(7, 'TH0000003', 16, NULL, 'قاری محمد عثمان', 'kary-mhmd-aathman', 'تجوید کے ماہر', 'تجوید، ناظرہ', 'مستند تجوید استاد', '8', 'usman.qari@madrasa.com', '+92 301 2345678', NULL, 'تلفظ (مخارج) پر مضبوط حکم کے ساتھ تجوید میں ماہر، طلباء کو روانی اور صحیح قرآن کی تلاوت حاصل کرنے میں مدد کرتا ہے۔', 1, 0, '2026-03-21 05:45:30', '2026-04-25 10:50:04'),
+(8, 'TH0000004', 17, 'Hafiz Bilal Ahmed', NULL, 'hafiz-bilal-ahmed', 'Hifz Instructor', 'Hifz, Revision (Manzil)', 'Hafiz-ul-Quran', '6', 'bilal.hafiz@madrasa.com', '+92 302 3456789', NULL, 'Focused on strengthening memorization through daily revision techniques and improving long-term retention of Quran.', 1, 0, '2026-03-21 05:53:11', '2026-04-25 10:50:04'),
+(9, 'TH0000005', 18, 'Mufti Saad Ahmed', NULL, 'mufti-saad-ahmed', 'Islamic Studies Head', 'Fiqh, Islamic Studies', 'Mufti, Alim-e-Deen', '12', 'saad.mufti@madrasa.com', '+92 304 5678901', NULL, 'Highly qualified Islamic scholar providing guidance in Fiqh and daily Islamic practices with deep understanding of Shariah.', 1, 0, '2026-03-21 05:56:16', '2026-04-25 10:50:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `teacher_salary_advances`
+--
+
+CREATE TABLE `teacher_salary_advances` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `teacher_id` bigint(20) UNSIGNED NOT NULL,
+  `amount` decimal(12,2) NOT NULL,
+  `advance_date` date NOT NULL,
+  `reason` varchar(255) DEFAULT NULL,
+  `status` enum('open','settled') NOT NULL DEFAULT 'open',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `teacher_salary_advances`
+--
+
+INSERT INTO `teacher_salary_advances` (`id`, `teacher_id`, `amount`, `advance_date`, `reason`, `status`, `created_at`, `updated_at`) VALUES
+(1, 4, 10000.00, '2026-04-25', NULL, 'open', '2026-04-25 12:08:06', '2026-04-25 12:08:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `teacher_salary_payouts`
+--
+
+CREATE TABLE `teacher_salary_payouts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `teacher_id` bigint(20) UNSIGNED NOT NULL,
+  `year` smallint(5) UNSIGNED NOT NULL,
+  `month` tinyint(3) UNSIGNED NOT NULL,
+  `present_days` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `late_days` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `absent_days` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `base_salary` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `attendance_amount` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `advance_deduction` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `other_deduction` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `bonus` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `net_pay` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `status` enum('draft','paid') NOT NULL DEFAULT 'draft',
+  `paid_date` date DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `teacher_salary_profiles`
+--
+
+CREATE TABLE `teacher_salary_profiles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `teacher_id` bigint(20) UNSIGNED NOT NULL,
+  `base_salary` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `per_present_day` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `per_late_day` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `per_absent_day` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -755,10 +921,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `role`, `phone`, `avatar`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', 'admin@madrasa.com', '2026-03-18 16:41:41', '$2y$12$cv//iPYmmyT8Uz4TmQzseOgECSgNtLrSr7K/k6vHiWpiognWatI4K', 'admin', NULL, NULL, 1, NULL, '2026-03-18 07:32:49', '2026-03-18 16:41:41'),
-(9, 'Ahmad Raza', 'okashagfx@gmail.com', '2026-03-19 14:55:52', '$2y$12$5AQo8anREDIfTLJtk1qMuu2RAtJyZdDphfZA7reBNjmzhXnWWrERC', 'teacher', NULL, NULL, 1, NULL, '2026-03-19 12:21:10', '2026-03-19 14:55:52'),
+(9, 'Ahmad Raza', 'okashagfx@gmail.com', '2026-03-19 14:55:52', '$2y$12$roeSOuacphJJwDfY1emDRu74Wu2KEn/7U5LWolZbNgQF/t2jnai02', 'teacher', NULL, NULL, 1, NULL, '2026-03-19 12:21:10', '2026-07-14 14:23:35'),
 (12, 'Test User', 'test@test.com', NULL, '$2y$12$1/Mhl.PC6.9toyc1Pw25VeKhylYQjQZqer8KLZ0Nm63bm3OJOZkR2', 'user', NULL, NULL, 1, NULL, '2026-03-19 18:27:24', '2026-03-19 18:27:24'),
 (13, 'Admin Test', 'admin@admin.com', NULL, '$2y$12$x2DoOZHJhzzStVu66dJdx.4ZjDdo61JmsDzQjpswtF8bfG7Fzj.tG', 'user', NULL, NULL, 1, NULL, '2026-03-21 03:22:02', '2026-03-21 03:22:02'),
-(14, 'Maulana Abdul Rehman', 'abdulrehman@madrasa.com', NULL, '$2y$12$FBFQzcIiPGGi86vI6Ykcxux0xrSz3IAkxDfzJDNik.TrCqps2NPjW', 'teacher', NULL, NULL, 1, NULL, '2026-03-21 04:54:55', '2026-03-21 04:54:55'),
+(14, 'Maulana Abdul Rehman', 'abdulrehman@madrasa.com', NULL, '$2a$12$YxBQ5afFuOTnENr0C9iT7er3AZfnax7NRbJButBIgBL7wUOXHIHgm', 'teacher', NULL, NULL, 1, NULL, '2026-03-21 04:54:55', '2026-03-21 04:54:55'),
 (16, 'قاری محمد عثمان', 'usman.qari@madrasa.com', NULL, '$2y$12$PRx0Dz.B1nbZgpST1gVpTuDUpAsODUFNY9J8B6cOdGeWFrfpgv3.q', 'teacher', NULL, NULL, 1, NULL, '2026-03-21 05:45:30', '2026-03-21 05:45:30'),
 (17, 'Hafiz Bilal Ahmed', 'bilal.hafiz@madrasa.com', NULL, '$2y$12$vq5GK6alN4hgM8YkPih0T.peTTG6E0RsgUqsP.vGMAulroNx55WBS', 'teacher', NULL, NULL, 1, NULL, '2026-03-21 05:53:11', '2026-03-21 05:53:11'),
 (18, 'Mufti Saad Ahmed', 'saad.mufti@madrasa.com', NULL, '$2y$12$z4Wr7CQ3Bb9XqUifvPMB7.td73Scp4PcvmlyB9uMQTe1ps76K1Uzu', 'teacher', NULL, NULL, 1, NULL, '2026-03-21 05:56:16', '2026-03-21 05:56:16'),
@@ -766,7 +932,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `ro
 (20, 'Bilal Khan', 'bilal.khan@student.com', NULL, '$2y$12$h0yU5ET/cKSTvTlXK7N3PO6MZSwMzW3xJ6Bgh7wzl8CUfO5rp.R4i', 'student', NULL, NULL, 1, NULL, '2026-03-27 14:50:54', '2026-03-27 14:50:54'),
 (21, 'عثمان علی', 'usman.ali@student.com', NULL, '$2y$12$ZE3CETAhzUoCr9S0QXLT/O7WrGrintSTZuv2QaCm5mfCHRGNZUa2C', 'student', NULL, NULL, 1, NULL, '2026-03-27 15:08:28', '2026-03-27 15:08:28'),
 (22, 'Hassan Mehmood', 'hassan.mehmood@student.com', NULL, '$2y$12$teNzVKhwTonxm0ne2UfB9.dAW6K5.edd0c9gXlHwLUByCYhzTiv6u', 'student', NULL, NULL, 1, NULL, '2026-03-27 15:10:28', '2026-03-27 15:10:28'),
-(23, 'Okasha Bukhari', 'okashabukhari295@gmail.com', NULL, '$2y$12$7uJcPrnf7Xws/UjKht76puyl3GqwstGSAW.fzlEIvGHerwTkIgzbq', 'student', NULL, NULL, 1, NULL, '2026-03-27 15:11:50', '2026-03-27 15:11:50');
+(23, 'Okasha Bukhari', 'okashabukhari295@gmail.com', NULL, '$2y$12$HQ8MJJbcP861Q3JpQMtsu.Z4kNmhDfBpEv2NszZhJqUn.Bkxi1KDK', 'student', NULL, NULL, 1, NULL, '2026-03-27 15:11:50', '2026-07-14 14:28:08');
 
 --
 -- Indexes for dumped tables
@@ -891,6 +1057,24 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `fees`
+--
+ALTER TABLE `fees`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `fees_reference_id_unique` (`reference_id`),
+  ADD KEY `fees_student_id_index` (`student_id`),
+  ADD KEY `fees_teacher_id_index` (`teacher_id`),
+  ADD KEY `fees_payment_date_index` (`payment_date`);
+
+--
+-- Indexes for table `fee_plans`
+--
+ALTER TABLE `fee_plans`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fee_plans_program_class_index` (`program`,`class`),
+  ADD KEY `fee_plans_course_id_index` (`course_id`);
+
+--
 -- Indexes for table `galleries`
 --
 ALTER TABLE `galleries`
@@ -970,12 +1154,44 @@ ALTER TABLE `students`
   ADD KEY `students_teacher_id_foreign` (`teacher_id`);
 
 --
+-- Indexes for table `student_fee_dues`
+--
+ALTER TABLE `student_fee_dues`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `student_fee_dues_student_id_year_month_unique` (`student_id`,`year`,`month`),
+  ADD KEY `student_fee_dues_fee_plan_id_foreign` (`fee_plan_id`),
+  ADD KEY `student_fee_dues_year_month_status_index` (`year`,`month`,`status`);
+
+--
 -- Indexes for table `teachers`
 --
 ALTER TABLE `teachers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `teachers_slug_unique` (`slug`),
   ADD KEY `teachers_user_id_foreign` (`user_id`);
+
+--
+-- Indexes for table `teacher_salary_advances`
+--
+ALTER TABLE `teacher_salary_advances`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `teacher_salary_advances_teacher_id_status_index` (`teacher_id`,`status`),
+  ADD KEY `teacher_salary_advances_advance_date_index` (`advance_date`);
+
+--
+-- Indexes for table `teacher_salary_payouts`
+--
+ALTER TABLE `teacher_salary_payouts`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `teacher_salary_payouts_teacher_id_year_month_unique` (`teacher_id`,`year`,`month`),
+  ADD KEY `teacher_salary_payouts_year_month_status_index` (`year`,`month`,`status`);
+
+--
+-- Indexes for table `teacher_salary_profiles`
+--
+ALTER TABLE `teacher_salary_profiles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `teacher_salary_profiles_teacher_id_unique` (`teacher_id`);
 
 --
 -- Indexes for table `users`
@@ -992,7 +1208,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `admissions`
@@ -1058,12 +1274,24 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `exams`
 --
 ALTER TABLE `exams`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `fees`
+--
+ALTER TABLE `fees`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `fee_plans`
+--
+ALTER TABLE `fee_plans`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -1094,7 +1322,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `otp_verifications`
@@ -1115,10 +1343,34 @@ ALTER TABLE `students`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `student_fee_dues`
+--
+ALTER TABLE `student_fee_dues`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `teachers`
 --
 ALTER TABLE `teachers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `teacher_salary_advances`
+--
+ALTER TABLE `teacher_salary_advances`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `teacher_salary_payouts`
+--
+ALTER TABLE `teacher_salary_payouts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `teacher_salary_profiles`
+--
+ALTER TABLE `teacher_salary_profiles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1213,10 +1465,35 @@ ALTER TABLE `students`
   ADD CONSTRAINT `students_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `student_fee_dues`
+--
+ALTER TABLE `student_fee_dues`
+  ADD CONSTRAINT `student_fee_dues_fee_plan_id_foreign` FOREIGN KEY (`fee_plan_id`) REFERENCES `fee_plans` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `student_fee_dues_student_id_foreign` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `teachers`
 --
 ALTER TABLE `teachers`
   ADD CONSTRAINT `teachers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `teacher_salary_advances`
+--
+ALTER TABLE `teacher_salary_advances`
+  ADD CONSTRAINT `teacher_salary_advances_teacher_id_foreign` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `teacher_salary_payouts`
+--
+ALTER TABLE `teacher_salary_payouts`
+  ADD CONSTRAINT `teacher_salary_payouts_teacher_id_foreign` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `teacher_salary_profiles`
+--
+ALTER TABLE `teacher_salary_profiles`
+  ADD CONSTRAINT `teacher_salary_profiles_teacher_id_foreign` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

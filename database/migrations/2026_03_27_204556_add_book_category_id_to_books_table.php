@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('books', function (Blueprint $table) {
-            $table->foreignId('book_category_id')->nullable()->after('author')->constrained('book_categories')->onDelete('set null');
-        });
+        if (!Schema::hasColumn('books', 'book_category_id')) {
+            Schema::table('books', function (Blueprint $table) {
+                $table->foreignId('book_category_id')->nullable()->after('author')->constrained('book_categories')->onDelete('set null');
+            });
+        }
     }
 
     /**
@@ -21,8 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('books', function (Blueprint $table) {
-            //
-        });
+        if (Schema::hasColumn('books', 'book_category_id')) {
+            Schema::table('books', function (Blueprint $table) {
+                $table->dropConstrainedForeignId('book_category_id');
+            });
+        }
     }
 };

@@ -51,6 +51,8 @@
       <a class="nav-item {{ request()->routeIs('admin.messages.*') ? 'active' : '' }}" href="{{ route('admin.messages.index') }}"><span class="nav-icon"><i class="bi bi-envelope"></i></span> Messages</a>
       <a class="nav-item {{ request()->routeIs('admin.books.*') ? 'active' : '' }}" href="{{ route('admin.books.index') }}"><span class="nav-icon"><i class="bi bi-journal-bookmark-fill"></i></span> Library (Books)</a>
       <a class="nav-item {{ request()->routeIs('admin.book-categories.*') ? 'active' : '' }}" href="{{ route('admin.book-categories.index') }}"><span class="nav-icon"><i class="bi bi-tags"></i></span> Book Categories</a>
+      <a class="nav-item {{ request()->routeIs('admin.fees.*') ? 'active' : '' }}" href="{{ route('admin.fees.dashboard') }}"><span class="nav-icon"><i class="bi bi-cash-coin"></i></span> Fees & Finance</a>
+      <a class="nav-item {{ request()->routeIs('admin.salaries.*') ? 'active' : '' }}" href="{{ route('admin.salaries.dashboard') }}"><span class="nav-icon"><i class="bi bi-wallet2"></i></span> Teacher Salaries</a>
       <a class="nav-item {{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}" href="{{ route('admin.announcements.index') }}"><span class="nav-icon"><i class="bi bi-megaphone"></i></span> Announcements</a>
       <a class="nav-item {{ request()->routeIs('admin.events.*') ? 'active' : '' }}" href="{{ route('admin.events.index') }}"><span class="nav-icon"><i class="bi bi-calendar-event"></i></span> Upcoming Events</a>
       <a class="nav-item {{ request()->routeIs('admin.management.*') ? 'active' : '' }}" href="{{ route('admin.management.index') }}"><span class="nav-icon"><i class="bi bi-people"></i></span> Staff Management</a>
